@@ -1,0 +1,18 @@
+apply plugin: 'java'
+apply plugin: 'application'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+mainClassName = "edu.gatech.oad.antlab.pkg1.AntLabMain"
+
+dependencies {
+  compile fileTree(dir: 'lib', include: '*.jar');
+}
+
+jar {
+  manifest {
+    attributes 'Main-Class': mainClassName,
+               'Class-Path': configurations.compile.collect { it.toURI() }.join(' ')
+  }
+}
