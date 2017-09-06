@@ -16,3 +16,7 @@ jar {
                'Class-Path': configurations.compile.collect { it.toURI() }.join(' ')
   }
 }
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.0'
+}
