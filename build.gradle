@@ -13,7 +13,7 @@ dependencies {
 jar {
   manifest {
     attributes 'Main-Class': mainClassName,
-               'Class-Path': configurations.compile.collect { it.toURI() }.join(' ')
+               'Class-Path': '../../lib/resources.jar'
   }
 }
 
