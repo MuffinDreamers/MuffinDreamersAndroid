@@ -3,6 +3,7 @@ apply plugin: 'application'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
+version = 1.0
 
 mainClassName = "edu.gatech.oad.antlab.pkg1.AntLabMain"
 
@@ -15,6 +16,7 @@ jar {
     attributes 'Main-Class': mainClassName,
                'Class-Path': '../../lib/resources.jar'
   }
+  archiveName = 'M2-' + version + ".jar"
 }
 
 task wrapper(type: Wrapper) {
