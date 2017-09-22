@@ -47,6 +47,10 @@ public class WelcomeActivity extends AppCompatActivity {
                     loggedInUser = new User(username_field.getText().toString(),
                             Permissions.USER);
                     ((Button) v).setText("Logout");
+                    Button register = (Button) this.findViewById(R.id
+                            .register_button);
+                    register.setVisibility(View.INVISIBLE);
+                    register.setEnabled(false);
                     login_dialog.dismiss();
                 } else {
                     username_field.setError("Incorrect username or password!");
@@ -59,6 +63,10 @@ public class WelcomeActivity extends AppCompatActivity {
         } else {
             Log.d("method_tracker","Logged In User is not null");
             loggedInUser = null;
+            Button register = (Button) this.findViewById(R.id
+                    .register_button);
+            register.setVisibility(View.VISIBLE);
+            register.setEnabled(true);
             ((Button) v).setText("Login");
         }
     }
