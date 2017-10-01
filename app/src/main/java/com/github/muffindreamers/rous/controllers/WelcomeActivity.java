@@ -48,6 +48,7 @@ public class WelcomeActivity extends AppCompatActivity {
             System.out.print("user is " + email_field.getText() +
                     " password is " + password_field.getText() + " and is an admin:"
                    + checked );
+            registration_dialog.dismiss();
 /*
             if ( //some validation credit) {
 
