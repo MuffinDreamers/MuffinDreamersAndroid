@@ -9,12 +9,15 @@ package com.github.muffindreamers.rous.model;
 
 public class User {
     // not final so we can handle changes while logged in
-    private String m_username;
+    private String m_email;
+
+    private String m_password;
 
     private Permissions m_permissions;
 
-    public User(String username, Permissions permissions) {
-        this.m_username = username;
+    public User(String email, String password, Permissions permissions) {
+        this.m_email = email;
+        this.m_password = password;
         this.m_permissions = permissions;
     }
 }

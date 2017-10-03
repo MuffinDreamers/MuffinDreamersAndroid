@@ -12,10 +12,11 @@
             android:layout_height="wrap_content"
             android:id="@+id/login_button"
             android:layout_weight="1.00"/>
+
     <Button
-            android:text="Register"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/register_button"
-            android:layout_weight="1"/>
+        android:id="@+id/register_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Register" />
 </LinearLayout>
