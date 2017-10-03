@@ -1,5 +1,8 @@
 package com.github.muffindreamers.rous.model;
 
+import java.io.Serializable;
+import java.io.SerializablePermission;
+
 /**
  * Created by Lee Mracek on 9/21/17.
  *
@@ -7,17 +10,37 @@ package com.github.muffindreamers.rous.model;
  * // or an ORM package
  */
 
-public class User {
+public class User implements Serializable {
     // not final so we can handle changes while logged in
     private String m_email;
 
-    private String m_password;
-
     private Permissions m_permissions;
 
-    public User(String email, String password, Permissions permissions) {
+    private String m_accessToken;
+
+    private String m_fullname;
+
+    public User(String email, String fullname, String accessToken, Permissions
+                permissions) {
         this.m_email = email;
-        this.m_password = password;
+        this.m_fullname = fullname;
         this.m_permissions = permissions;
+        this.m_accessToken = accessToken;
+    }
+
+    public String getAccessToken() {
+        return m_accessToken;
+    }
+
+    public String getEmail() {
+        return m_email;
+    }
+
+    public String getFullname() {
+        return m_fullname;
+    }
+
+    public Permissions getPermissions() {
+        return m_permissions;
     }
 }
