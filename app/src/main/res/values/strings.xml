@@ -4,5 +4,7 @@
 
     <string name="com_auth0_domain">muffindreamers.auth0.com</string>
     <string name="com_auth0_client_id">trq9MLo8GsyhnNe6iKDUIOBZrauB1cAD</string>
+    <string name="title_activity_fetch_rat_data">FetchRatDataActivity</string>
+    <string name="title_activity_detailed_rat_screen">DetailedRatScreen</string>
 
 </resources>

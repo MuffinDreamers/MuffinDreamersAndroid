@@ -21,7 +21,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".controllers.MainActivity"/>
+        <activity android:name=".controllers.MainActivity" />
+        <activity
+            android:name=".controllers.FetchRatDataActivity"
+            android:label="@string/title_activity_fetch_rat_data"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".controllers.DetailedRatScreen"
+            android:label="@string/title_activity_detailed_rat_screen"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
