@@ -24,6 +24,12 @@ import javax.net.ssl.HttpsURLConnection;
 public class RetrieveRatData extends AsyncTask<String, Void, ArrayList<RatData>>  {
     ArrayList<RatData> ratList= new ArrayList<>();
 
+    /**
+     * Pulls the RatData information from the SQL database
+     * and creates an arrayList of RatData objects
+     * @param params the items needed to parse the json objects from the database
+     * @return the ArrayList of RatData objects
+     */
     @Override
     protected ArrayList<RatData> doInBackground(String... params) {
         URL githubEndpoint = null;
