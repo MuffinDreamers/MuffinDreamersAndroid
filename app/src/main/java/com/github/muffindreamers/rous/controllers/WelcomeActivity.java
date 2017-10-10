@@ -1,5 +1,4 @@
 package com.github.muffindreamers.rous.controllers;
-
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +11,6 @@ import com.auth0.android.Auth0;
 import com.auth0.android.authentication.AuthenticationAPIClient;
 import com.auth0.android.authentication.AuthenticationException;
 import com.auth0.android.callback.BaseCallback;
-import com.auth0.android.lock.Lock;
 import com.auth0.android.management.ManagementException;
 import com.auth0.android.management.UsersAPIClient;
 import com.auth0.android.provider.AuthCallback;
@@ -22,9 +20,8 @@ import com.auth0.android.result.UserProfile;
 import com.github.muffindreamers.rous.R;
 import com.github.muffindreamers.rous.model.Permissions;
 import com.github.muffindreamers.rous.model.User;
-
 import java.util.Arrays;
-import java.util.Set;
+
 
 
 public class WelcomeActivity extends AppCompatActivity {
@@ -88,8 +85,8 @@ public class WelcomeActivity extends AppCompatActivity {
                                                                (payload.getUserMetadata()
                                                                        .keySet().toArray()));
                                                        Intent toMain = new Intent
-                                                               (WelcomeActivity.this,
-                                                                       MainActivity.class);
+                                                                       (WelcomeActivity.this,
+                                                                       FetchRatDataActivity.class);
                                                        toMain.putExtra("auth", true);
                                                        User user = new User(username, name,
                                                                credentials.getAccessToken(),
