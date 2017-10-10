@@ -29,7 +29,32 @@ public class DetailedRatScreen extends AppCompatActivity {
         RatData rat = (RatData) extras.getSerializable("rat");
         setContentView(R.layout.activity_detailed_rat_screen);
         TextView idTextView = (TextView)findViewById(R.id.rat_id);
-        idTextView.setText("Rat Street Address: " + rat.getStreetAddress());
+        idTextView.setText("Rat Identification Number: " + rat.getId());
+
+        TextView LocationTypeTextView = (TextView)findViewById(R.id.location_type);
+        LocationTypeTextView.setText("Location Type: " + rat.getLocationType());
+
+        TextView boroughTextView = (TextView)findViewById(R.id.borough);
+        boroughTextView.setText("Borough Location: " + rat.getBorough());
+
+        TextView zipTextView = (TextView)findViewById(R.id.zipcode);
+        zipTextView.setText("Zipcode: " + rat.getZipCode());
+
+        TextView addressTextView = (TextView)findViewById(R.id.address);
+        addressTextView.setText("Street Address: " + rat.getStreetAddress());
+
+        TextView cityTextView = (TextView)findViewById(R.id.city);
+        cityTextView.setText("City Location: " + rat.getCity());
+
+        TextView latitudeTextView = (TextView)findViewById(R.id.latitude);
+        latitudeTextView.setText("Latitude: " + rat.getLatitude());
+
+        TextView longitudeTextView = (TextView)findViewById(R.id.longitude);
+        longitudeTextView.setText("Longitude: " + rat.getLongitude());
+
+        TextView dateCreatedTextView = (TextView)findViewById(R.id.date_created);
+        dateCreatedTextView.setText("Date Created: " + rat.getDateCreated());
+
         Button returnButton = (Button) findViewById(R.id.return_to_main);
         returnButton.setOnClickListener(this::returnHandler);
     }

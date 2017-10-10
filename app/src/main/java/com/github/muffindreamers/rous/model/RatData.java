@@ -214,8 +214,8 @@ public class RatData implements Serializable {
      */
     @Override
     public String toString() {
-        SimpleDateFormat formatter1= new SimpleDateFormat("MM-dd");
+        SimpleDateFormat formatter1= new SimpleDateFormat("MM-dd-yyyy");
         String date1 = formatter1.format(this.getDateCreated());
-        return "Rat Sighting: " + String.valueOf(this.id) + ", Date Created: " + date1;
+        return "Sighting ID: " + String.valueOf(this.id) + ", Date Created: " + date1;
     }
 }
