@@ -83,6 +83,9 @@ public class RetrieveRatData extends AsyncTask<String, Void, ArrayList<RatData>>
                         } else if (key.equals("longitude")) {
                             double value = jsonReader.nextDouble();
                             rat.setLongitude(value);
+                        } else if (key.equals("borough")) {
+                            String value = jsonReader.nextString();
+                            rat.setBorough(value);
                         } else {
                             jsonReader.skipValue(); // Skip values of other keys
                         }
