@@ -19,9 +19,13 @@ import com.auth0.android.result.Credentials;
 import com.auth0.android.result.UserProfile;
 import com.github.muffindreamers.rous.R;
 import com.github.muffindreamers.rous.model.Permissions;
+import com.github.muffindreamers.rous.model.RatData;
+import com.github.muffindreamers.rous.model.RetrieveRatData;
 import com.github.muffindreamers.rous.model.User;
-import java.util.Arrays;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.concurrent.ExecutionException;
 
 
 public class WelcomeActivity extends AppCompatActivity {
@@ -84,9 +88,21 @@ public class WelcomeActivity extends AppCompatActivity {
                                                        Log.d("debug", Arrays.toString
                                                                (payload.getUserMetadata()
                                                                        .keySet().toArray()));
+                                                       //MOVE BACK ONCE DATABASE IS FIXED
+                                                       ArrayList<RatData> ratList= new ArrayList<>();
+                                                       try {
+                                                           ratList = new RetrieveRatData().execute().get();
+                                                       } catch (InterruptedException e) {
+                                                           e.printStackTrace();
+                                                       } catch (ExecutionException e) {
+                                                           e.printStackTrace();
+                                                       }
+
                                                        Intent toMain = new Intent
                                                                        (WelcomeActivity.this,
                                                                        FetchRatDataActivity.class);
+                                                       //REMOVE LATER - ONCE DATABASE IS FIXED
+                                                       toMain.putExtra("ratlist", ratList);
                                                        toMain.putExtra("auth", true);
                                                        User user = new User(username, name,
                                                                credentials.getAccessToken(),

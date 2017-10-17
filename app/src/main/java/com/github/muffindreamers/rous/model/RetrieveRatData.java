@@ -1,4 +1,4 @@
-package com.github.muffindreamers.rous.controllers;
+package com.github.muffindreamers.rous.model;
 
 import android.os.AsyncTask;
 import android.util.JsonReader;

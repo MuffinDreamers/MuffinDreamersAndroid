@@ -2,7 +2,9 @@ package com.github.muffindreamers.rous.model;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Brooke on 10/7/2017.
@@ -10,6 +12,12 @@ import java.util.Date;
  */
 
 public class RatData implements Serializable {
+
+    public static List<String> locationTypeArray =
+            Arrays.asList("1-2 Family Dwelling", "3+ Family Apt. Building",
+                    "3+ Family Mixed Use Building", "Commercial Building",
+                    "Vacant Lot", "Construction Site" , "Hospital",
+                    "Catch Basin/Sewer");
 
     private int id;
 
