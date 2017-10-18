@@ -23,6 +23,10 @@ import java.util.concurrent.ExecutionException;
 
 import static android.R.id.message;
 
+
+/**
+ * Created by Brooke 10/1/17
+ */
 public class AddNewRatData extends AppCompatActivity {
     private User user = null;
     private RatData addedRat;
@@ -34,7 +38,10 @@ public class AddNewRatData extends AppCompatActivity {
     private EditText latitude;
     private EditText longitude;
 
-
+    /**
+     * Creates and takes in new rat data
+     * @param savedInstanceState the instance data passed in
+     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +49,6 @@ public class AddNewRatData extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         User user = (User) extras.getSerializable("user");
         setContentView(R.layout.activity_add_new_rat_data);
-        addedRat = new RatData();
 
         locationType = (Spinner) findViewById(R.id.location_type_spinner);
         borough = (Spinner) findViewById(R.id.borough_edit);
@@ -76,7 +82,7 @@ public class AddNewRatData extends AppCompatActivity {
         backToMain.putExtra("user", getIntent().getSerializableExtra("user"));
         backToMain.putExtra("auth", true);
         //REMOVE LATER - ONCE DATABASE IS WORKING
-        backToMain.putExtra("ratlist", getIntent().getSerializableExtra("ratlist"));
+        //backToMain.putExtra("ratlist", getIntent().getSerializableExtra("ratlist"));
         startActivity(backToMain);
     }
 
@@ -90,14 +96,13 @@ public class AddNewRatData extends AppCompatActivity {
         Intent backToMain = new Intent(this, FetchRatDataActivity.class);
         backToMain.putExtra("user", getIntent().getSerializableExtra("user"));
         backToMain.putExtra("auth", true);
-        //REMOVE LATER - ONCE DATABASE IS WORKING
-        backToMain.putExtra("ratlist", getIntent().getSerializableExtra("ratlist"));
+        addedRat = new RatData();
 
         try {
             Random rand = new Random();
             int n = rand.nextInt(500) + 37018500;
             addedRat.setId(n);
-            addedRat.setLocationType((String) locationType.getSelectedItem());
+            addedRat.setLocationType(locationType.getSelectedItem().toString());
             addedRat.setBorough(borough.getSelectedItem().toString());
             addedRat.setZipCode((Integer.parseInt(zipcode.getText().toString())));
             addedRat.setCity(city.getText().toString());
@@ -111,7 +116,7 @@ public class AddNewRatData extends AppCompatActivity {
 
 
         try {
-            addedRat = new UploadRatData().execute().get();
+            addedRat = new UploadRatData(addedRat).execute().get();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {

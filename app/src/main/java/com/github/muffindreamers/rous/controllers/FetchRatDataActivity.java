@@ -43,11 +43,7 @@ public class FetchRatDataActivity extends Activity {
         }
 
         this.user = user;
-        //REMOVE LATER - ONCE DATABASE IS FIXED
-        //if (ratList == null) {
-            ratList = (ArrayList<RatData>) extras.getSerializable("ratlist");
-       // }
-/*
+
             try {
                 ratList = new RetrieveRatData().execute().get();
             } catch (InterruptedException e) {
@@ -55,13 +51,7 @@ public class FetchRatDataActivity extends Activity {
             } catch (ExecutionException e) {
                 e.printStackTrace();
             }
-*/
-/*
-        RatData passedInRat = (RatData) extras.getSerializable("rat");
-        if (passedInRat != null) {
-            ratList.add(0, passedInRat);
-        }
-*/
+
         setContentView(R.layout.activity_fetch_rat_data);
         listView = (ListView) findViewById(R.id.list);
 
@@ -93,7 +83,7 @@ public class FetchRatDataActivity extends Activity {
                                 DetailedRatScreen.class);
                 toDetailedScreen.putExtra("rat", rat);
                 toDetailedScreen.putExtra("user", user);
-                toDetailedScreen.putExtra("ratlist", ratList);
+                //toDetailedScreen.putExtra("ratlist", ratList);
                 startActivity(toDetailedScreen);
             }
 
@@ -123,7 +113,7 @@ public class FetchRatDataActivity extends Activity {
         Intent toNewRatDataScreen = new Intent(this, AddNewRatData.class);
         toNewRatDataScreen.putExtra("user", user);
         //REMOVE LATER - ONCE DATABASE IS FIXED
-        toNewRatDataScreen.putExtra("ratlist", ratList);
+        //toNewRatDataScreen.putExtra("ratlist", ratList);
         startActivity(toNewRatDataScreen);
     }
 }

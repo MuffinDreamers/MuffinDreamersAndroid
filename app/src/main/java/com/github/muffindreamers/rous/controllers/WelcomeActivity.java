@@ -88,21 +88,11 @@ public class WelcomeActivity extends AppCompatActivity {
                                                        Log.d("debug", Arrays.toString
                                                                (payload.getUserMetadata()
                                                                        .keySet().toArray()));
-                                                       //MOVE BACK ONCE DATABASE IS FIXED
-                                                       ArrayList<RatData> ratList= new ArrayList<>();
-                                                       try {
-                                                           ratList = new RetrieveRatData().execute().get();
-                                                       } catch (InterruptedException e) {
-                                                           e.printStackTrace();
-                                                       } catch (ExecutionException e) {
-                                                           e.printStackTrace();
-                                                       }
 
                                                        Intent toMain = new Intent
                                                                        (WelcomeActivity.this,
                                                                        FetchRatDataActivity.class);
-                                                       //REMOVE LATER - ONCE DATABASE IS FIXED
-                                                       toMain.putExtra("ratlist", ratList);
+
                                                        toMain.putExtra("auth", true);
                                                        User user = new User(username, name,
                                                                credentials.getAccessToken(),

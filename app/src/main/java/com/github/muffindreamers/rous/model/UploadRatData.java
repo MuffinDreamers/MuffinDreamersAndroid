@@ -23,8 +23,23 @@ import java.text.SimpleDateFormat;
  */
 
 public class UploadRatData extends AsyncTask<String, Void, RatData> {
-    private RatData addRat = new RatData();
+    private RatData addRat;
 
+    /**
+     * Override AsyncTask constructor
+     * @param addRat the rat to be uploaded to the database
+     */
+    public UploadRatData(RatData addRat) {
+        super();
+        this.addRat = addRat;
+    }
+
+
+    /**
+     * Uploads rat data to an SQL server
+     * @param params the parameters required for the asynctask
+     * @return the new rat created
+     */
     @Override
     protected RatData doInBackground(String... params) {
         URL githubEndpoint = null;
@@ -99,4 +114,6 @@ public class UploadRatData extends AsyncTask<String, Void, RatData> {
     protected void onPostExecute(RatData ratData) {
         super.onPostExecute(ratData);
     }
+
+
 }

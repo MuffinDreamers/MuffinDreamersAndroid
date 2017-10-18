@@ -67,8 +67,6 @@ public class DetailedRatScreen extends AppCompatActivity {
         Intent backToMain = new Intent(DetailedRatScreen.this, FetchRatDataActivity.class);
         backToMain.putExtra("user", getIntent().getSerializableExtra("user"));
         backToMain.putExtra("auth", true);
-        //REMOVE LATER - ONCE DATABASE IS FIXED
-        backToMain.putExtra("ratlist", getIntent().getSerializableExtra("ratlist"));
         startActivity(backToMain);
     }
 }

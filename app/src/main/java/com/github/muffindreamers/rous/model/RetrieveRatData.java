@@ -21,7 +21,9 @@ import javax.net.ssl.HttpsURLConnection;
  * Created by Brooke on 10/7/2017.
  */
 
-public class RetrieveRatData extends AsyncTask<String, Void, ArrayList<RatData>>  {
+public class
+
+RetrieveRatData extends AsyncTask<String, Void, ArrayList<RatData>>  {
     ArrayList<RatData> ratList= new ArrayList<>();
 
     /**
