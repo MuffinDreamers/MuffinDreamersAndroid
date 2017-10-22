@@ -7,17 +7,26 @@
 
     <ListView
         android:id="@+id/list"
-        android:layout_height="500dp"
-        android:layout_width="match_parent">
-    </ListView>
+        android:layout_width="match_parent"
+        android:layout_height="450dp"></ListView>
 
     <Button
         android:id="@+id/logout_main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Logout"
+        android:layout_marginStart="48dp"
         android:layout_below="@+id/list"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:id="@+id/add_new_main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/list"
+        android:layout_marginEnd="58dp"
+        android:text="Add New" />
 
 
 </RelativeLayout>

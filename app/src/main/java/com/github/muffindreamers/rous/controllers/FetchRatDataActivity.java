@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import com.github.muffindreamers.rous.R;
 import com.github.muffindreamers.rous.model.RatData;
+import com.github.muffindreamers.rous.model.RetrieveRatData;
 import com.github.muffindreamers.rous.model.User;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
@@ -20,8 +21,8 @@ import java.util.concurrent.ExecutionException;
 
 public class FetchRatDataActivity extends Activity {
     private User user = null;
-    ListView listView ;
-    ArrayList<RatData> ratList= new ArrayList<>();
+    private ListView listView ;
+    private ArrayList<RatData> ratList;
 
     /**
      * Creates the main ListView Screen
@@ -42,13 +43,14 @@ public class FetchRatDataActivity extends Activity {
         }
 
         this.user = user;
-        try {
-            ratList = new RetrieveRatData().execute().get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
+
+            try {
+                ratList = new RetrieveRatData().execute().get();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
 
         setContentView(R.layout.activity_fetch_rat_data);
         listView = (ListView) findViewById(R.id.list);
@@ -81,12 +83,16 @@ public class FetchRatDataActivity extends Activity {
                                 DetailedRatScreen.class);
                 toDetailedScreen.putExtra("rat", rat);
                 toDetailedScreen.putExtra("user", user);
+                //toDetailedScreen.putExtra("ratlist", ratList);
                 startActivity(toDetailedScreen);
             }
 
         });
         Button logout = (Button) findViewById(R.id.logout_main);
         logout.setOnClickListener(this::logoutHandler);
+
+        Button add_new = (Button) findViewById(R.id.add_new_main);
+        add_new.setOnClickListener(this::newRatDataHandler);
     }
 
     /**
@@ -99,5 +105,16 @@ public class FetchRatDataActivity extends Activity {
         startActivity(backToWelcome);
     }
 
+    /**
+     * Sends the user to the add new rat screen
+     * @param v the view the button is located in
+     */
+    public void newRatDataHandler(View v) {
+        Intent toNewRatDataScreen = new Intent(this, AddNewRatData.class);
+        toNewRatDataScreen.putExtra("user", user);
+        //REMOVE LATER - ONCE DATABASE IS FIXED
+        //toNewRatDataScreen.putExtra("ratlist", ratList);
+        startActivity(toNewRatDataScreen);
+    }
 }
 

@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -29,6 +30,10 @@
         <activity
             android:name=".controllers.DetailedRatScreen"
             android:label="@string/title_activity_detailed_rat_screen"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".controllers.AddNewRatData"
+            android:label="@string/title_activity_add_new_rat_data"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
