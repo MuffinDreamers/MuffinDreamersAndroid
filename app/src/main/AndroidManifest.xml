@@ -24,17 +24,24 @@
         </activity>
         <activity android:name=".controllers.MainActivity" />
         <activity
-            android:name=".controllers.FetchRatDataActivity"
+            android:name=".controllers.MapRatDataActivity"
             android:label="@string/title_activity_fetch_rat_data"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".controllers.DetailedRatScreen"
             android:label="@string/title_activity_detailed_rat_screen"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".controllers.FetchRatDataActivity"
+            android:label="FetchFatData"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".controllers.AddNewRatData"
             android:label="@string/title_activity_add_new_rat_data"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDju0Rv1V_kh6tkSCprRgvn6y1QAwySchg"/>
     </application>
 
 </manifest>

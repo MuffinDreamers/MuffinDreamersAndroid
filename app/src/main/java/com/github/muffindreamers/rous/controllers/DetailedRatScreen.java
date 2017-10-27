@@ -64,7 +64,7 @@ public class DetailedRatScreen extends AppCompatActivity {
      * @param v the view passed into method
      */
     public void returnHandler(View v) {
-        Intent backToMain = new Intent(DetailedRatScreen.this, FetchRatDataActivity.class);
+        Intent backToMain = new Intent(DetailedRatScreen.this, MapRatDataActivity.class);
         backToMain.putExtra("user", getIntent().getSerializableExtra("user"));
         backToMain.putExtra("auth", true);
         startActivity(backToMain);

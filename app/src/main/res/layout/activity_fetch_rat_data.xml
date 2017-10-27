@@ -28,5 +28,14 @@
         android:layout_marginEnd="58dp"
         android:text="Add New" />
 
+    <Button
+        android:id="@+id/mapbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="To Map"
+        android:layout_alignParentBottom="true"
+        android:layout_toStartOf="@+id/add_new_main"
+        android:layout_marginBottom="19dp" />
+
 
 </RelativeLayout>

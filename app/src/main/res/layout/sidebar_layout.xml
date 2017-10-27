@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="395dp"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:text="Start Date: 01/11/91 14:58 PM EST"/>
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="395dp"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:text="End Date: 01/11/91 14:58 PM EST"/>
+</LinearLayout>

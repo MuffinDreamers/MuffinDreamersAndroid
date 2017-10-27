@@ -23,6 +23,7 @@ public class FetchRatDataActivity extends Activity {
     private User user = null;
     private ListView listView ;
     private ArrayList<RatData> ratList;
+    private boolean auth;
 
     /**
      * Creates the main ListView Screen
@@ -32,7 +33,7 @@ public class FetchRatDataActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle extras = getIntent().getExtras();
-        boolean auth = extras.getBoolean("auth");
+        auth = extras.getBoolean("auth");
         if (!auth) {
             startActivity(new Intent(this, WelcomeActivity.class));
         }
@@ -44,13 +45,13 @@ public class FetchRatDataActivity extends Activity {
 
         this.user = user;
 
-            try {
-                ratList = new RetrieveRatData().execute().get();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            }
+        try {
+            ratList = new RetrieveRatData().execute().get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
 
         setContentView(R.layout.activity_fetch_rat_data);
         listView = (ListView) findViewById(R.id.list);
@@ -77,7 +78,7 @@ public class FetchRatDataActivity extends Activity {
                                     int position, long id) {
                 RatData rat = adapter.getItem(position);
                 //Toast.makeText(getApplicationContext(), rat.toString(),
-                        //Toast.LENGTH_LONG).show();
+                //Toast.LENGTH_LONG).show();
                 Intent toDetailedScreen = new Intent
                         (FetchRatDataActivity.this,
                                 DetailedRatScreen.class);
@@ -93,6 +94,16 @@ public class FetchRatDataActivity extends Activity {
 
         Button add_new = (Button) findViewById(R.id.add_new_main);
         add_new.setOnClickListener(this::newRatDataHandler);
+
+        Button map_button = (Button) findViewById(R.id.mapbutton);
+        map_button.setOnClickListener(this::newMapHandler);
+    }
+
+    public void newMapHandler(View v) {
+        Intent toNewMapScreen = new Intent(this, MapRatDataActivity.class);
+        toNewMapScreen.putExtra("user", user);
+        toNewMapScreen.putExtra("auth", auth);
+        startActivity(toNewMapScreen);
     }
 
     /**
@@ -117,4 +128,3 @@ public class FetchRatDataActivity extends Activity {
         startActivity(toNewRatDataScreen);
     }
 }
-

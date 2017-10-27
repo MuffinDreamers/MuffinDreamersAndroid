@@ -21,8 +21,6 @@ import com.github.muffindreamers.rous.model.User;
 import java.util.Random;
 import java.util.concurrent.ExecutionException;
 
-import static android.R.id.message;
-
 
 /**
  * Created by Brooke 10/1/17
@@ -78,7 +76,7 @@ public class AddNewRatData extends AppCompatActivity {
      * @param v the view the button is located in
      */
     public void cancelHandler(View v) {
-        Intent backToMain = new Intent(AddNewRatData.this, FetchRatDataActivity.class);
+        Intent backToMain = new Intent(AddNewRatData.this, MapRatDataActivity.class);
         backToMain.putExtra("user", getIntent().getSerializableExtra("user"));
         backToMain.putExtra("auth", true);
         //REMOVE LATER - ONCE DATABASE IS WORKING
@@ -93,7 +91,7 @@ public class AddNewRatData extends AppCompatActivity {
      */
     @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
     public void newRatDataHandler(View v) {
-        Intent backToMain = new Intent(this, FetchRatDataActivity.class);
+        Intent backToMain = new Intent(this, MapRatDataActivity.class);
         backToMain.putExtra("user", getIntent().getSerializableExtra("user"));
         backToMain.putExtra("auth", true);
         addedRat = new RatData();
