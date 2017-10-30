@@ -76,7 +76,7 @@ public class AddNewRatData extends AppCompatActivity {
      * @param v the view the button is located in
      */
     public void cancelHandler(View v) {
-        Intent backToMain = new Intent(AddNewRatData.this, MapRatDataActivity.class);
+        Intent backToMain = new Intent(AddNewRatData.this, FetchRatDataActivity.class);
         backToMain.putExtra("user", getIntent().getSerializableExtra("user"));
         backToMain.putExtra("auth", true);
         //REMOVE LATER - ONCE DATABASE IS WORKING

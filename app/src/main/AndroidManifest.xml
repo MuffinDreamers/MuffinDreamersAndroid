@@ -31,17 +31,23 @@
             android:name=".controllers.DetailedRatScreen"
             android:label="@string/title_activity_detailed_rat_screen"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".controllers.FetchRatDataActivity"
+        <activity
+            android:name=".controllers.FetchRatDataActivity"
             android:label="FetchFatData"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".controllers.AddNewRatData"
             android:label="@string/title_activity_add_new_rat_data"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDju0Rv1V_kh6tkSCprRgvn6y1QAwySchg"/>
+            android:value="AIzaSyDju0Rv1V_kh6tkSCprRgvn6y1QAwySchg" />
+
+        <activity
+            android:name=".controllers.GraphRatData"
+            android:label="@string/title_activity_graph_rat_data"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
