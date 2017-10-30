@@ -97,8 +97,29 @@ public class FetchRatDataActivity extends Activity {
 
         Button map_button = (Button) findViewById(R.id.mapbutton);
         map_button.setOnClickListener(this::newMapHandler);
+
+        Button graph_button = (Button) findViewById(R.id.graph_button);
+        graph_button.setOnClickListener(this::newGraphHandler);
+
     }
 
+
+    /**
+     * to go to the graph
+     * @param v the graph view
+     */
+    public void newGraphHandler(View v) {
+        Intent toNewGraphScreen = new Intent(this, GraphRatData.class);
+        toNewGraphScreen.putExtra("user", user);
+        toNewGraphScreen.putExtra("auth", auth);
+        toNewGraphScreen.putExtra("ratlist", ratList);
+        startActivity(toNewGraphScreen);
+    }
+
+    /**
+     * to go to the map screen
+     * @param v a view to go to the new map
+     */
     public void newMapHandler(View v) {
         Intent toNewMapScreen = new Intent(this, MapRatDataActivity.class);
         toNewMapScreen.putExtra("user", user);

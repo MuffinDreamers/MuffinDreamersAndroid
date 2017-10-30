@@ -34,8 +34,15 @@
         android:layout_height="wrap_content"
         android:text="To Map"
         android:layout_alignParentBottom="true"
-        android:layout_toStartOf="@+id/add_new_main"
-        android:layout_marginBottom="19dp" />
+        android:layout_alignStart="@+id/add_new_main" />
+
+    <Button
+        android:id="@+id/graph_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/logout_main"
+        android:text="To Graph" />
 
 
 </RelativeLayout>

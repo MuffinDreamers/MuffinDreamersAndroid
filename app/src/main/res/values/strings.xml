@@ -8,5 +8,6 @@
     <string name="title_activity_detailed_rat_screen">DetailedRatScreen</string>
     <string name="textview">TextView</string>
     <string name="title_activity_add_new_rat_data">AddNewRatData</string>
+    <string name="title_activity_graph_rat_data">GraphRatData</string>
 
 </resources>
