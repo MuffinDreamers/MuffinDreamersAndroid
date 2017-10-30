@@ -40,6 +40,10 @@ public class GraphRatData extends AppCompatActivity {
     private Spinner graphType;
     private String selected;
 
+    /**
+     * the function executes when the activity is opened
+     * @param savedInstanceState the instance data passed in
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,9 +71,9 @@ public class GraphRatData extends AppCompatActivity {
         end.setOnClickListener((v) -> endHandler(v));
     }
 
-    /**\
-     * 
-     * @param v
+    /**
+     * returns to the main screen
+     * @param v the view passed in
      */
     public void newReturnHandler(View v) {
         Intent toMain = new Intent(this, FetchRatDataActivity.class);
