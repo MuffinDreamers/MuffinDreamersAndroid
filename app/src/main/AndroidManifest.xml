@@ -10,9 +10,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/frontlogo"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/frontlogo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".controllers.WelcomeActivity">
@@ -42,7 +40,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDju0Rv1V_kh6tkSCprRgvn6y1QAwySchg" />
+            android:value="AIzaSyBo3B7q6OJi7lDnx2F47IH7fG2wum3iGmw" />
 
         <activity
             android:name=".controllers.GraphRatData"
