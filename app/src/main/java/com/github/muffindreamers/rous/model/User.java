@@ -14,13 +14,13 @@ public class User implements Serializable {
     // not final so we can handle changes while logged in
     private String m_email;
 
-    private Permissions m_permissions;
+    private UserType m_permissions;
 
     private String m_accessToken;
 
     private String m_fullname;
 
-    public User(String email, String fullname, String accessToken, Permissions
+    public User(String email, String fullname, String accessToken, UserType
                 permissions) {
         this.m_email = email;
         this.m_fullname = fullname;
@@ -40,7 +40,7 @@ public class User implements Serializable {
         return m_fullname;
     }
 
-    public Permissions getPermissions() {
+    public UserType getPermissions() {
         return m_permissions;
     }
 }

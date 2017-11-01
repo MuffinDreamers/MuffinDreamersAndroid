@@ -18,7 +18,7 @@ import com.auth0.android.provider.WebAuthProvider;
 import com.auth0.android.result.Credentials;
 import com.auth0.android.result.UserProfile;
 import com.github.muffindreamers.rous.R;
-import com.github.muffindreamers.rous.model.Permissions;
+import com.github.muffindreamers.rous.model.UserType;
 import com.github.muffindreamers.rous.model.User;
 
 import java.util.Arrays;
@@ -92,7 +92,7 @@ public class WelcomeActivity extends AppCompatActivity {
                                                        toMain.putExtra("auth", true);
                                                        User user = new User(username, name,
                                                                credentials.getAccessToken(),
-                                                               Permissions.fromString(perms));
+                                                               UserType.fromString(perms));
                                                        toMain.putExtra("user", user);
                                                        startActivity(toMain);
                                                    }

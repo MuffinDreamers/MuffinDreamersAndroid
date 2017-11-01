@@ -8,46 +8,46 @@
               android:orientation="vertical">
 
     <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="Get Started!"
-                android:id="@+id/welcomebutton"
-                android:layout_marginBottom="24dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginRight="8dp"
-                app:layout_constraintRight_toRightOf="parent"
-                android:layout_marginLeft="8dp"
-                app:layout_constraintLeft_toLeftOf="parent"
+            android:id="@+id/welcomebutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="24dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp" />
+            android:text="Get Started!"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Report and browse rat sightings posted in your area!"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toBottomOf="@+id/welcomebutton"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
+            android:text="Report and browse rat sightings posted in your area!"
+            app:layout_constraintBottom_toBottomOf="@+id/welcomebutton"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView"
             app:layout_constraintVertical_bias="0.2" />
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="353dp"
-            android:layout_height="380dp"
-            android:layout_marginTop="6dp"
+            android:layout_width="358dp"
+            android:layout_height="348dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/logo"
-            app:layout_constraintHorizontal_bias="0.516" />
+            app:srcCompat="@drawable/logo" />
     </android.support.constraint.ConstraintLayout>
 </LinearLayout>

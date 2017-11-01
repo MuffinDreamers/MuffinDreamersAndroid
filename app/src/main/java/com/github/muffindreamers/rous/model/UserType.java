@@ -1,22 +1,22 @@
 package com.github.muffindreamers.rous.model;
 
-public enum Permissions {
+public enum UserType {
     USER("USER"),
     ADMIN("ADMIN");
 
     private String str;
 
-    Permissions(String permissions) {
+    UserType(String permissions) {
        str = permissions;
     }
 
-    public static Permissions fromString(String string) {
+    public static UserType fromString(String string) {
         switch (string.toUpperCase()) {
             case "ADMIN":
-                return Permissions.ADMIN;
+                return UserType.ADMIN;
             case "USER":
             default:
-                return Permissions.USER;
+                return UserType.USER;
         }
     }
 
