@@ -91,7 +91,7 @@ public class AddNewRatData extends AppCompatActivity {
      */
     @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
     public void newRatDataHandler(View v) {
-        Intent backToMain = new Intent(this, MapRatDataActivity.class);
+        Intent backToMain = new Intent(this, FetchRatDataActivity.class);
         backToMain.putExtra("user", getIntent().getSerializableExtra("user"));
         backToMain.putExtra("auth", true);
         addedRat = new RatData();
