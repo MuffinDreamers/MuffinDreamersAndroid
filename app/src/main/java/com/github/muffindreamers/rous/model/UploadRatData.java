@@ -8,22 +8,25 @@ import com.github.muffindreamers.rous.model.RatData;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedOutputStream;
+/*import java.io.BufferedOutputStream;*/
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 /**
- * Created by Brooke on 10/12/2017.
+ * Created by Brooke on 10/7/2017.
+ * @author Brooke White
  */
 
 public class UploadRatData extends AsyncTask<String, Void, RatData> {
-    private RatData addRat;
+    private static final int INT = 201;
+    private static final int INT1 = 200;
+    private  RatData addRat;
 
     /**
      * Override AsyncTask constructor
@@ -37,32 +40,33 @@ public class UploadRatData extends AsyncTask<String, Void, RatData> {
 
     /**
      * Uploads rat data to an SQL server
-     * @param params the parameters required for the asynctask
+     * @param params the parameters required for the asyncTask
      * @return the new rat created
      */
     @Override
     protected RatData doInBackground(String... params) {
-        URL githubEndpoint = null;
+        URL gitHubEndpoint;
         try {
             JSONObject addedRatJson = new JSONObject();
             addedRatJson.put("id", addRat.getId());
-            SimpleDateFormat formatter1= new SimpleDateFormat("YYYY-MM-dd'T'HH:MM:SS");
+            SimpleDateFormat formatter1= new SimpleDateFormat("YYYY-MM-dd'T'HH:MM:SS",
+                    Locale.ENGLISH);
             String date1 = formatter1.format(addRat.getDateCreated());
             addedRatJson.put("dateCreated", date1);
             addedRatJson.put("locationType", addRat.getLocationType());
-            addedRatJson.put("zipCode", addRat.getZipCode());
+            addedRatJson.put("zipcode", addRat.getZipCode());
             addedRatJson.put("streetAddress", addRat.getStreetAddress());
             addedRatJson.put("city", addRat.getCity());
             addedRatJson.put("borough", addRat.getBorough());
             addedRatJson.put("latitude", addRat.getLatitude());
             addedRatJson.put("longitude", addRat.getLongitude());
-            githubEndpoint = new URL("http://muffindreamers.azurewebsites.net/sightings/report");
+            gitHubEndpoint = new URL("http://muffindreamers.azurewebsites.net/sightings/report");
             // Create connection
             //http://muffindreamers.azurewebsites.net/sightings/report
             //https://requestb.in/rvpop9rv
 
             HttpURLConnection myConnection =
-                    (HttpURLConnection) githubEndpoint.openConnection();
+                    (HttpURLConnection) gitHubEndpoint.openConnection();
             myConnection.setRequestMethod("POST");
             myConnection.setChunkedStreamingMode(0);
             myConnection.setDoOutput(true);
@@ -70,41 +74,38 @@ public class UploadRatData extends AsyncTask<String, Void, RatData> {
             myConnection.setRequestProperty("Accept", "application/json");
             myConnection.connect();
             OutputStream out = myConnection.getOutputStream();
-            out.write(addedRatJson.toString().getBytes());
+            String rat_to_string = addedRatJson.toString();
+            out.write(rat_to_string.getBytes());
             out.flush();
             int connect = myConnection.getResponseCode();
-            if (connect == 201 || connect == 200) {
+            if ((connect == INT) || (connect == INT1)) {
                 // Success
                 // Further processing here
                 BufferedReader in = new BufferedReader(new InputStreamReader(
                         myConnection.getInputStream()));
                 String inputLine;
-                StringBuffer response = new StringBuffer();
+                StringBuilder response = new StringBuilder();
 
                 while ((inputLine = in.readLine()) != null) {
                     response.append(inputLine);
                 }
                 in.close();
-                Log.e("fuckingsuccessmodefam", response.toString());
+                Log.e("fuckingSuccessModeFam", response.toString());
             } else {
                 BufferedReader in = new BufferedReader(new InputStreamReader(
                         myConnection.getErrorStream()));
                 String inputLine;
-                StringBuffer response = new StringBuffer();
+                StringBuilder response = new StringBuilder();
 
                 while ((inputLine = in.readLine()) != null) {
                     response.append(inputLine);
                 }
                 in.close();
-                Log.e("fuckingerrormodefam", response.toString());
+                Log.e("FuckingErrorModeFam", response.toString());
             }
             out.close();
             myConnection.disconnect();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+        } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
         return addRat;

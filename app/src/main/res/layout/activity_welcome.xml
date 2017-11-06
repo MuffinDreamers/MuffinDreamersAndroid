@@ -12,7 +12,7 @@
         android:layout_height="match_parent">
 
         <Button
-            android:id="@+id/welcomebutton"
+            android:id="@+id/welcome_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -21,7 +21,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
-            android:text="Get Started!"
+            android:text="@string/get_started"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent" />
@@ -32,15 +32,16 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
-            android:text="Report and browse rat sightings posted in your area!"
-            app:layout_constraintBottom_toBottomOf="@+id/welcomebutton"
+            android:text="@string/report_and_browse_rat_sightings_posted_in_your_area"
+            app:layout_constraintBottom_toBottomOf="@+id/welcome_button"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView"
+            app:layout_constraintTop_toBottomOf="@+id/logo"
             app:layout_constraintVertical_bias="0.2" />
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/logo"
+            android:contentDescription="@string/welcomeLogo"
             android:layout_width="358dp"
             android:layout_height="348dp"
             app:layout_constraintEnd_toEndOf="parent"

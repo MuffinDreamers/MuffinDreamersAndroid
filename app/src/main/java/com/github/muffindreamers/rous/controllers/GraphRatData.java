@@ -6,16 +6,16 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+/*import android.support.v7.widget.Toolbar;*/
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
+/*import android.widget.ArrayAdapter;*/
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.Spinner;
+/*import android.widget.Spinner;*/
 
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.AxisBase;
+/*import com.github.mikephil.charting.components.AxisBase;*/
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
@@ -25,20 +25,18 @@ import com.github.muffindreamers.rous.R;
 import com.github.muffindreamers.rous.model.RatData;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by Brooke 10/27/17
  */
 public class GraphRatData extends AppCompatActivity {
 
-    private Date startdate, enddate;
+    private static final int X = 11;
+    private static final int INT = 11;
+    private static final int X1 = 12;
     private LineChart chart;
-    private Spinner graphType;
-    private String selected;
 
     /**
      * the function executes when the activity is opened
@@ -52,7 +50,8 @@ public class GraphRatData extends AppCompatActivity {
         /*List<String> graphTypeArray = Arrays.asList("Month", "Year");
 
         graphType = (Spinner) findViewById(R.id.graphTypeSpinner);
-        ArrayAdapter<String> graphTypeAdapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, graphTypeArray);
+        ArrayAdapter<String> graphTypeAdapter =
+        new ArrayAdapter(this,android.R.layout.simple_spinner_item, graphTypeArray);
         graphTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         graphType.setAdapter(graphTypeAdapter);
 
@@ -65,20 +64,21 @@ public class GraphRatData extends AppCompatActivity {
         return_button.setOnClickListener(this::newReturnHandler);
 
         Button start = (Button) findViewById(R.id.start_graph);
-        start.setOnClickListener((v) -> startHandler(v));
+        start.setOnClickListener(this::startHandler);
 
         Button end = (Button) findViewById(R.id.end_graph);
-        end.setOnClickListener((v) -> endHandler(v));
+        end.setOnClickListener(this::endHandler);
     }
 
     /**
      * returns to the main screen
      * @param v the view passed in
      */
-    public void newReturnHandler(View v) {
+    private void newReturnHandler(View v) {
         Intent toMain = new Intent(this, FetchRatDataActivity.class);
-        toMain.putExtra("user", getIntent().getSerializableExtra("user"));
-        toMain.putExtra("auth", getIntent().getSerializableExtra("auth"));
+        Intent intent = getIntent();
+        toMain.putExtra("user", intent.getSerializableExtra("user"));
+        toMain.putExtra("auth", intent.getSerializableExtra("auth"));
         startActivity(toMain);
     }
     /**
@@ -87,7 +87,7 @@ public class GraphRatData extends AppCompatActivity {
      * @param v the view
      */
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void startHandler(View v) {
+    private void startHandler(View v) {
         DatePickerDialog newFragment = new DatePickerDialog(GraphRatData.this);
         newFragment.setOnDateSetListener(new StartDatePickerDialog());
         newFragment.show();
@@ -99,7 +99,7 @@ public class GraphRatData extends AppCompatActivity {
      * @param v the view
      */
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void endHandler(View v) {
+    private void endHandler(View v) {
         DatePickerDialog newFragment = new DatePickerDialog(GraphRatData.this);
         newFragment.setOnDateSetListener(new EndDatePickerDialog());
         newFragment.show();
@@ -108,8 +108,8 @@ public class GraphRatData extends AppCompatActivity {
     /**
      * filters the graph by date
      * @param chart the chart / graph being displayed
-     * @param startDate the startdate to filter by
-     * @param endDate the enddate to filter by
+     * @param startDate the starting date to filter by
+     * @param endDate the ending date to filter by
      */
     private void updateGraphView (LineChart chart, Date startDate, Date endDate) {
         Calendar startC = Calendar.getInstance();
@@ -121,10 +121,10 @@ public class GraphRatData extends AppCompatActivity {
             endC.setTime(endDate);
         }
         XAxis xaxis = chart.getXAxis();
-        if (endDate == null && startDate != null) {
+        if ((endDate == null) && (startDate != null)) {
             xaxis.setAxisMinimum(startC.get(Calendar.MONTH) + 1);
             chart.invalidate();
-        } else if (endDate != null && startDate == null) {
+        } else if ((endDate != null) && (startDate == null)) {
             xaxis.setAxisMaximum(endC.get(Calendar.MONTH) + 1);
             chart.invalidate();
         } else {
@@ -143,24 +143,24 @@ public class GraphRatData extends AppCompatActivity {
     private class StartDatePickerDialog
             implements DatePickerDialog.OnDateSetListener {
 
+        @Override
         public void onDateSet(DatePicker view, int year, int month, int day) {
             Calendar cal = Calendar.getInstance();
             cal.set(year, month, day);
             Date date = cal.getTime();
             Log.d("rat-shit", date.toString());
-            startdate = date;
-            updateGraphView(chart, startdate, null);
+            updateGraphView(chart, date, null);
         }
     }
     private class EndDatePickerDialog
             implements DatePickerDialog.OnDateSetListener {
 
+        @Override
         public void onDateSet(DatePicker view, int year, int month, int day) {
             Calendar cal = Calendar.getInstance();
             cal.set(year, month, day);
-            Date date = cal.getTime();
-            enddate = date;
-            updateGraphView(chart, null, enddate);
+            Date end_date = cal.getTime();
+            updateGraphView(chart, null, end_date);
         }
     }
 
@@ -168,9 +168,21 @@ public class GraphRatData extends AppCompatActivity {
      * creates a graph by month
      */
     private void sortByMonth() {
-        Bundle extras = getIntent().getExtras();
-        ArrayList<RatData> ratList = (ArrayList<RatData>) extras.getSerializable("ratlist");
-        int jan= 0,feb = 0,mar = 0,apr = 0,may = 0,jun = 0,jul = 0,aug = 0,sep = 0,oct = 0,nov = 0,dec = 0;
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+        Iterable<RatData> ratList = (ArrayList<RatData>) extras.getSerializable("ratList");
+        int jan = 0;
+        int feb = 0;
+        int mar = 0;
+        int apr = 0;
+        int may = 0;
+        int jun = 0;
+        int jul = 0;
+        int aug = 0;
+        int sep = 0;
+        int oct = 0;
+        int nov = 0;
+        int dec = 0;
         for (RatData rat : ratList) {
             Date date = rat.getDateCreated();
             Calendar cal = Calendar.getInstance();
@@ -178,33 +190,33 @@ public class GraphRatData extends AppCompatActivity {
             int month = cal.get(Calendar.MONTH);
             if (month == 0) {
                 jan++;
-            }if (month == 1) {
+            } else if (month == 1) {
                 feb++;
-            }if (month == 2) {
+            } else if (month == 2) {
                 mar++;
-            }if (month == 3) {
+            }else if (month == 3) {
                 apr++;
-            }if (month == 4) {
+            }else if (month == 4) {
                 may++;
-            }if (month == 5) {
+            }else if (month == 5) {
                 jun++;
-            }if (month == 6) {
+            }else if (month == 6) {
                 jul++;
-            }if (month == 7) {
+            }else if (month == 7) {
                 aug++;
-            }if (month == 8) {
+            }else if (month == 8) {
                 sep++;
-            }if (month == 9) {
+            }else if (month == 9) {
                 oct++;
-            }if (month == 10) {
+            }else if (month == 10) {
                 nov++;
-            }if (month == 11) {
+            }else if (month == INT) {
                 dec++;
             }
         }
         setContentView(R.layout.activity_graph_rat_data);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
         //graph = (GraphView) findViewById(R.id.graph);
         chart = (LineChart) findViewById(R.id.chart);
         ArrayList<Entry> entries = new ArrayList<>();
@@ -219,27 +231,19 @@ public class GraphRatData extends AppCompatActivity {
         entries.add(new Entry(8, aug));
         entries.add(new Entry(9, sep));
         entries.add(new Entry(10, oct));
-        entries.add(new Entry(11, nov));
-        entries.add(new Entry(12, dec));
+        entries.add(new Entry(X, nov));
+        entries.add(new Entry(X1, dec));
 
         LineDataSet dataSet = new LineDataSet(entries, "Number of Rat Sightings");
 
-        final String[] lables = new String[] {"0" ,"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+        final String[] labels = new String[] {"0" ,"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul",
+                "Aug", "Sep", "Oct", "Nov", "Dec"};
 
         LineData data = new LineData(dataSet);
         chart.setData(data);
 
-        IAxisValueFormatter formatter = new IAxisValueFormatter() {
-
-            @Override
-            public String getFormattedValue(float value, AxisBase axis) {
-                return lables[(int) value];
-            }
-
-            // we don't draw numbers, so no decimal digits needed
-
-            public int getDecimalDigits() {  return 0; }
-        };
+        // we don't draw numbers, so no decimal digits needed
+        IAxisValueFormatter formatter = (value, axis) -> labels[(int) value];
 
         XAxis xAxis = chart.getXAxis();
         xAxis.setGranularity(1f); // minimum axis-step (interval) is 1

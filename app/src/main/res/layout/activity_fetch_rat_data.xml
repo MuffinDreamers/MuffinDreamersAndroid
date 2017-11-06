@@ -8,13 +8,13 @@
     <ListView
         android:id="@+id/list"
         android:layout_width="match_parent"
-        android:layout_height="450dp"></ListView>
+        android:layout_height="450dp" />
 
     <Button
         android:id="@+id/logout_main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Logout"
+        android:text="@string/logout"
         android:layout_marginStart="48dp"
         android:layout_below="@+id/list"
         android:layout_alignParentStart="true" />
@@ -26,13 +26,13 @@
         android:layout_alignParentEnd="true"
         android:layout_below="@+id/list"
         android:layout_marginEnd="58dp"
-        android:text="Add New" />
+        android:text="@string/add_new" />
 
     <Button
-        android:id="@+id/mapbutton"
+        android:id="@+id/map_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="To Map"
+        android:text="@string/to_map"
         android:layout_alignParentBottom="true"
         android:layout_alignStart="@+id/add_new_main" />
 
@@ -42,7 +42,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignStart="@+id/logout_main"
-        android:text="To Graph" />
+        android:text="@string/to_graph" />
 
 
 </RelativeLayout>

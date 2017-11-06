@@ -5,15 +5,16 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Brooke on 10/7/2017.
- * The ratdata information holder class
+ * The ratData information holder class
  */
 
 public class RatData implements Serializable {
 
-    public static List<String> locationTypeArray =
+    private static List<String> locationTypeArray =
             Arrays.asList("1-2 Family Dwelling", "3+ Family Apt. Building",
                     "3+ Family Mixed Use Building", "Commercial Building",
                     "Vacant Lot", "Construction Site" , "Hospital",
@@ -58,7 +59,7 @@ public class RatData implements Serializable {
      * @param latitude of the rat sighting
      * @param longitude of the rat sighting
      */
-    public RatData(int id, Date dateCreated, String locationType, int zipCode,
+    private RatData(int id, Date dateCreated, String locationType, int zipCode,
                    String streetAddress, String city, String borough, double latitude,
                    double longitude) {
         this.id = id;
@@ -73,8 +74,24 @@ public class RatData implements Serializable {
     }
 
     /**
+     * Gets location types as array
+     * @return location type array
+     */
+    public static List<String> getLocationTypeArray() {
+        return locationTypeArray;
+    }
+
+//    /**
+//     * Sets the Location type array
+//     * @param locationTypeArray to be set
+//     */
+//    public static void setLocationTypeArray(List<String> locationTypeArray) {
+//        RatData.locationTypeArray = locationTypeArray;
+//    }
+
+    /**
      * Returns the rat sighting id
-     * @return the id of the rat sigthing
+     * @return the id of the rat sighting
      */
     public int getId() {
         return id;
@@ -222,7 +239,7 @@ public class RatData implements Serializable {
      */
     @Override
     public String toString() {
-        SimpleDateFormat formatter1= new SimpleDateFormat("MM-dd-yyyy");
+        SimpleDateFormat formatter1= new SimpleDateFormat("MM-dd-yyyy", Locale.ENGLISH);
         String date1 = formatter1.format(this.getDateCreated());
         return "Sighting ID: " + String.valueOf(this.id) + ", Date Created: " + date1;
     }

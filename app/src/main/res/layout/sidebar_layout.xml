@@ -10,12 +10,12 @@
         android:layout_width="395dp"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
-        android:text="Start Date: 01/11/91 14:58 PM EST"/>
+        android:text="@string/start_date_01_11_91_14_58_pm_est"/>
 
     <Button
         android:id="@+id/button3"
         android:layout_width="395dp"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
-        android:text="End Date: 01/11/91 14:58 PM EST"/>
+        android:text="@string/end_date_01_11_91_14_58_pm_est"/>
 </LinearLayout>

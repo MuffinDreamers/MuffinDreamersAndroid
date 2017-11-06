@@ -1,7 +1,7 @@
 package com.github.muffindreamers.rous.model;
 
 import java.io.Serializable;
-import java.io.SerializablePermission;
+/*import java.io.SerializablePermission;*/
 
 /**
  * Created by Lee Mracek on 9/21/17.
@@ -18,28 +18,51 @@ public class User implements Serializable {
 
     private String m_accessToken;
 
-    private String m_fullname;
+    private String m_fullName;
 
-    public User(String email, String fullname, String accessToken, UserType
+    /**
+     * Creates a user instance
+     * @param email email of user
+     * @param fullName name of user
+     * @param accessToken token from auth0
+     * @param permissions user type
+     */
+    public User(String email, String fullName, String accessToken, UserType
                 permissions) {
         this.m_email = email;
-        this.m_fullname = fullname;
+        this.m_fullName = fullName;
         this.m_permissions = permissions;
         this.m_accessToken = accessToken;
     }
 
+    /**
+     * Gets access token
+     * @return string of token
+     */
     public String getAccessToken() {
         return m_accessToken;
     }
 
+    /**
+     * Gets email of user
+     * @return string of email
+     */
     public String getEmail() {
         return m_email;
     }
 
-    public String getFullname() {
-        return m_fullname;
+    /**
+     * Gets name of user
+     * @return string of full name
+     */
+    public String getFullName() {
+        return m_fullName;
     }
 
+    /**
+     * Gets user type
+     * @return UserType of permissions
+     */
     public UserType getPermissions() {
         return m_permissions;
     }
