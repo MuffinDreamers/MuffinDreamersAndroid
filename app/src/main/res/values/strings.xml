@@ -43,4 +43,6 @@
     <string name="full_name">Full name:</string>
     <string name="user_type">Permissions Level:</string>
 
+
+    <string name="buttonWidth">100dp</string>
 </resources>

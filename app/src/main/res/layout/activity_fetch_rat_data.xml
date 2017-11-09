@@ -1,48 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp" >
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent">
 
     <ListView
         android:id="@+id/list"
         android:layout_width="match_parent"
-        android:layout_height="450dp" />
-
-    <Button
-        android:id="@+id/logout_main"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/logout"
-        android:layout_marginStart="48dp"
-        android:layout_below="@+id/list"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/grid"
         android:layout_alignParentStart="true" />
 
-    <Button
-        android:id="@+id/add_new_main"
+    <GridLayout
+        android:id="@+id/grid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/list"
-        android:layout_marginEnd="58dp"
-        android:text="@string/add_new" />
-
-    <Button
-        android:id="@+id/map_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/to_map"
+        android:layout_gravity="center"
         android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/add_new_main" />
+        android:layout_centerHorizontal="true"
+        android:rowCount="2"
+        android:columnCount="2">
 
-    <Button
-        android:id="@+id/graph_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/logout_main"
-        android:text="@string/to_graph" />
+        <Button
+            android:id="@+id/logout_main"
+            android:text="@string/logout"
+            android:layout_width="@string/buttonWidth"
+            android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:layout_margin="5dp"/>
 
+        <Button
+            android:id="@+id/add_new_main"
+            android:text="@string/add_new"
+            android:layout_width="@string/buttonWidth"
+            android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_column="1"
+            android:layout_margin="5dp"/>
 
+        <Button
+            android:id="@+id/map_button"
+            android:text="@string/to_map"
+            android:layout_width="@string/buttonWidth"
+            android:layout_height="wrap_content"
+            android:layout_row="1"
+            android:layout_column="1"
+            android:layout_margin="5dp"/>
+
+        <Button
+            android:id="@+id/graph_button"
+            android:text="@string/to_graph"
+            android:layout_width="@string/buttonWidth"
+            android:layout_height="wrap_content"
+            android:layout_row="1"
+            android:layout_column="0"
+            android:layout_margin="5dp"/>
+    </GridLayout>
 </RelativeLayout>
