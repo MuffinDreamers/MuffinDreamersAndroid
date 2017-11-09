@@ -11,6 +11,7 @@
     <application
         android:allowBackup="true"
         android:label="@string/app_name"
+        android:icon="@drawable/front"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".controllers.WelcomeActivity">
@@ -20,7 +21,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".controllers.MainActivity" />
         <activity
             android:name=".controllers.MapRatDataActivity"
             android:label="@string/title_activity_fetch_rat_data"
@@ -45,7 +45,7 @@
         <activity
             android:name=".controllers.GraphRatData"
             android:label="@string/title_activity_graph_rat_data"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

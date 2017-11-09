@@ -15,36 +15,46 @@ import com.auth0.android.management.ManagementException;
 import com.auth0.android.management.UsersAPIClient;
 import com.auth0.android.provider.AuthCallback;
 import com.auth0.android.provider.WebAuthProvider;
+import com.auth0.android.request.Request;
 import com.auth0.android.result.Credentials;
 import com.auth0.android.result.UserProfile;
 import com.github.muffindreamers.rous.R;
 import com.github.muffindreamers.rous.model.UserType;
 import com.github.muffindreamers.rous.model.User;
 
+import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.Set;
 
-
+/**
+ * Creates welcome screen after user is authenticated
+ */
 public class WelcomeActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_welcome);
-        Button welcome = (Button) findViewById(R.id.welcomebutton);
+        Button welcome = (Button) findViewById(R.id.welcome_button);
         welcome.setOnClickListener(this::onWelcomeButtonClick);
     }
 
-    public void onWelcomeButtonClick(View view) {
+    /**
+     * Event when button on welcome screen is selected
+     * @param view Screen for welcome screen
+     */
+    private void onWelcomeButtonClick(View view) {
         Auth0 auth0 = new Auth0(this);
         auth0.setOIDCConformant(true);
-        WebAuthProvider.init(auth0)
-                .withScheme("https")
-                .withAudience(String.format("https://%s/userinfo",
-                        getString(R.string.com_auth0_domain)))
-                .start(WelcomeActivity.this, new AuthCallback() {
+        WebAuthProvider.Builder init = WebAuthProvider.init(auth0);
+        WebAuthProvider.Builder https = init.withScheme("https");
+        WebAuthProvider.Builder builder = https.withAudience(String.format("https://%s/userinfo", 
+                getString(R.string.com_auth0_domain)));
+        builder.start(WelcomeActivity.this, new AuthCallback() {
                     @Override
                     public void onFailure(@NonNull Dialog dialog) {
-                        // later
+                        // later 
                     }
 
                     @Override
@@ -58,8 +68,10 @@ public class WelcomeActivity extends AppCompatActivity {
                                 (auth0, credentials.getIdToken());
                         AuthenticationAPIClient authClient = new
                                 AuthenticationAPIClient(auth0);
-                        authClient.userInfo((credentials.getAccessToken()))
-                                .start(new BaseCallback<UserProfile,
+                        assert (credentials.getAccessToken()) != null;
+                        Request<UserProfile, AuthenticationException> userAuthenticationExceptionRequest =
+                                authClient.userInfo((credentials.getAccessToken()));
+                        userAuthenticationExceptionRequest.start(new BaseCallback<UserProfile,
                                         AuthenticationException>() {
                                     @Override
                                     public void onSuccess(UserProfile payload) {
@@ -67,30 +79,33 @@ public class WelcomeActivity extends AppCompatActivity {
                                                        .getId());
                                        String userId = payload.getId();
 
-                                       usersClient.getProfile(userId)
-                                               .start(new BaseCallback<UserProfile, ManagementException>() {
+                                        Request<UserProfile, ManagementException> profile = 
+                                                usersClient.getProfile(userId);
+                                        profile.start(new BaseCallback<UserProfile, 
+                                                ManagementException>() {
                                                    @Override
                                                    public void onSuccess(UserProfile payload) {
                                                        String username = payload.getEmail();
-                                                       String name = (String) payload
-                                                               .getUserMetadata()
+                                                       Map<String, Object> userMetadata = payload
+                                                               .getUserMetadata();
+                                                       String name = (String) userMetadata
                                                                .get("full_name");
-                                                       String perms = (String) payload
-                                                               .getUserMetadata()
+                                                       String perms = (String) userMetadata
                                                                .get("role");
                                                        Log.d("user info", "User is " +
                                                                username + " with name: " + name +
                                                                "and permissions: " + perms);
+                                                       Set<String> userData = userMetadata
+                                                               .keySet();
                                                        Log.d("debug", Arrays.toString
-                                                               (payload.getUserMetadata()
-                                                                       .keySet().toArray()));
+                                                               (userData.toArray()));
 
                                                        Intent toMain = new Intent
                                                                        (WelcomeActivity.this,
                                                                        FetchRatDataActivity.class);
 
                                                        toMain.putExtra("auth", true);
-                                                       User user = new User(username, name,
+                                                       Serializable user = new User(username, name,
                                                                credentials.getAccessToken(),
                                                                UserType.fromString(perms));
                                                        toMain.putExtra("user", user);
@@ -98,7 +113,8 @@ public class WelcomeActivity extends AppCompatActivity {
                                                    }
 
                                                    @Override
-                                                   public void onFailure(ManagementException error) {
+                                                   public void onFailure(ManagementException
+                                                                                 error) {
                                                    }
                                                });
                                     }

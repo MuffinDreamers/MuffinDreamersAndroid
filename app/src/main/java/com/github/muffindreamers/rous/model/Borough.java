@@ -3,9 +3,8 @@ package com.github.muffindreamers.rous.model;
 import java.io.Serializable;
 
 /**
- * Created by Brooke on 10/16/2017.
+ * Creates enum for boroughs
  */
-
 public enum Borough implements Serializable {
     MANHATTAN("Manhattan"),
     STATEN_ISLAND("Staten Island"),
@@ -13,14 +12,17 @@ public enum Borough implements Serializable {
     BROOKLYN("Brooklyn"),
     BRONX("Bronx");
 
-    private final String abrv;
+    /**
+     * Created by Brooke on 10/16/2017.
+     */
+    private final String abbreviation;
 
-    private Borough(final String ab) {
-        abrv = ab;
+    Borough(final String ab) {
+        abbreviation = ab;
     }
 
     @Override
     public String toString() {
-        return abrv;
+        return abbreviation;
     }
 }

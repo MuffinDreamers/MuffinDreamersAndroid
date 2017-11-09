@@ -16,7 +16,7 @@
         android:id="@+id/start_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Start Date:"
+        android:text="@string/starting_date"
         android:background="@android:color/transparent"
         android:layout_above="@+id/end_date"
         />
@@ -26,6 +26,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
-        android:text="End Date:"
+        android:text="@string/ending_date"
         android:layout_alignParentBottom="true"/>
 </RelativeLayout>

@@ -12,7 +12,8 @@ import com.github.muffindreamers.rous.R;
 import com.github.muffindreamers.rous.model.RatData;
 
 /**
- * Created by Brooke on 10/7/2017.
+ * Created by Brooke on 10/16/2017.
+ * @author Brooke White
  */
 public class DetailedRatScreen extends AppCompatActivity {
 
@@ -25,35 +26,44 @@ public class DetailedRatScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle extras = getIntent().getExtras();
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+        assert extras != null;
         RatData rat = (RatData) extras.getSerializable("rat");
         setContentView(R.layout.activity_detailed_rat_screen);
         TextView idTextView = (TextView)findViewById(R.id.rat_id);
-        idTextView.setText("Rat Identification Number: " + rat.getId());
+        assert rat != null;
+        idTextView.setText(String.format("%s%d", getString(R.string.rat_id_num), rat.getId()));
 
         TextView LocationTypeTextView = (TextView)findViewById(R.id.location_type);
-        LocationTypeTextView.setText("Location Type: " + rat.getLocationType());
+        LocationTypeTextView.setText(String.format("%s%s", getString(R.string.location_type),
+                rat.getLocationType()));
 
         TextView boroughTextView = (TextView)findViewById(R.id.borough);
-        boroughTextView.setText("Borough Location: " + rat.getBorough());
+        boroughTextView.setText(String.format("%s%s", getString(R.string.borough),
+                rat.getBorough()));
 
-        TextView zipTextView = (TextView)findViewById(R.id.zipcode);
-        zipTextView.setText("Zipcode: " + rat.getZipCode());
+        TextView zipTextView = (TextView)findViewById(R.id.zipCode);
+        zipTextView.setText(String.format("%s%d", getString(R.string.zipCode), rat.getZipCode()));
 
         TextView addressTextView = (TextView)findViewById(R.id.address);
-        addressTextView.setText("Street Address: " + rat.getStreetAddress());
+        addressTextView.setText(String.format("%s%s", getString(R.string.address),
+                rat.getStreetAddress()));
 
         TextView cityTextView = (TextView)findViewById(R.id.city);
-        cityTextView.setText("City Location: " + rat.getCity());
+        cityTextView.setText(String.format("%s%s", getString(R.string.city), rat.getCity()));
 
         TextView latitudeTextView = (TextView)findViewById(R.id.latitude);
-        latitudeTextView.setText("Latitude: " + rat.getLatitude());
+        latitudeTextView.setText(String.format("%s%s", getString(R.string.latitude),
+                rat.getLatitude()));
 
         TextView longitudeTextView = (TextView)findViewById(R.id.longitude);
-        longitudeTextView.setText("Longitude: " + rat.getLongitude());
+        longitudeTextView.setText(String.format("%s%s", getString(R.string.longitude),
+                rat.getLongitude()));
 
         TextView dateCreatedTextView = (TextView)findViewById(R.id.date_created);
-        dateCreatedTextView.setText("Date Created: " + rat.getDateCreated());
+        dateCreatedTextView.setText(String.format("%s%s", getString(R.string.date_created),
+                rat.getDateCreated()));
 
         Button returnButton = (Button) findViewById(R.id.return_to_main);
         returnButton.setOnClickListener(this::returnHandler);
@@ -63,9 +73,10 @@ public class DetailedRatScreen extends AppCompatActivity {
      * returns the user to the main rat app screen
      * @param v the view passed into method
      */
-    public void returnHandler(View v) {
+    private void returnHandler(View v) {
         Intent backToMain = new Intent(DetailedRatScreen.this, FetchRatDataActivity.class);
-        backToMain.putExtra("user", getIntent().getSerializableExtra("user"));
+        Intent intent2 = getIntent();
+        backToMain.putExtra("user", intent2.getSerializableExtra("user"));
         backToMain.putExtra("auth", true);
         startActivity(backToMain);
     }

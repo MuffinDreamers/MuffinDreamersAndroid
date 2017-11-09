@@ -2,9 +2,12 @@ package com.github.muffindreamers.rous.controllers;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -14,7 +17,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.github.muffindreamers.rous.R;
@@ -24,7 +26,7 @@ import com.github.muffindreamers.rous.model.User;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.OnMapReadyCallback;
+/*import com.google.android.gms.maps.OnMapReadyCallback;*/
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -33,28 +35,34 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Stream;
 
 /**
  * Created by Brooke on 10/7/2017.
+ * @author Brooke White
  */
 
 public class MapRatDataActivity extends Activity {
+    private static final double V = 40.730610;
+    private static final double V_1 = -73.935242;
     private User user = null;
-    private ListView listView ;
-    private ArrayList<RatData> ratList;
-    private HashMap<Integer, Marker> markersOnMap = new HashMap<>();
+    private Collection<RatData> ratList;
+    private Map<Integer, Marker> markersOnMap = new HashMap<>();
     private GoogleMap map;
 
     private final DateFormat df = new SimpleDateFormat("dd/MM/YY h:m a", Locale.US);
 
-    private Date startdate, enddate;
+    private Date startDate;
+    private Date endDate;
 
     /**
      * Creates the main ListView Screen
@@ -63,7 +71,9 @@ public class MapRatDataActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle extras = getIntent().getExtras();
+        Intent intent1 = getIntent();
+        Bundle extras = intent1.getExtras();
+        assert extras != null;
         boolean auth = extras.getBoolean("auth");
         if (!auth) {
             startActivity(new Intent(this, WelcomeActivity.class));
@@ -77,20 +87,20 @@ public class MapRatDataActivity extends Activity {
         this.user = user;
 
             try {
-                ratList = new RetrieveRatData().execute().get();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
+                RetrieveRatData retrieveRatData = new RetrieveRatData();
+                AsyncTask<String, Void, ArrayList<RatData>> execute = retrieveRatData.execute();
+                ratList = execute.get();
+            } catch (InterruptedException | ExecutionException e) {
                 e.printStackTrace();
             }
 
         setContentView(R.layout.activity_map_screen);
 
         Button start = (Button) findViewById(R.id.start_date);
-        start.setOnClickListener((v) -> startHandler(v));
+        start.setOnClickListener(this::startHandler);
 
         Button end = (Button) findViewById(R.id.end_date);
-        end.setOnClickListener((v) -> endHandler(v));
+        end.setOnClickListener(this::endHandler);
 
         if (findViewById(R.id.map_frame_container) != null) {
 
@@ -105,52 +115,53 @@ public class MapRatDataActivity extends Activity {
             MapFragment mapFragment = new MapFragment();
 
             // Handle map loading
-            mapFragment.getMapAsync(new OnMapReadyCallback() {
-                @Override
-                public void onMapReady(GoogleMap googleMap) {
-                    map = googleMap;
-                    googleMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+            mapFragment.getMapAsync(googleMap -> {
+                map = googleMap;
+                googleMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
 
-                        @Override
-                        public View getInfoWindow(Marker arg0) {
-                            return null;
-                        }
+                    @Override
+                    public View getInfoWindow(Marker arg0) {
+                        return null;
+                    }
 
-                        @Override
-                        public View getInfoContents(Marker marker) {
+                    @Override
+                    public View getInfoContents(Marker marker) {
 
-                            LinearLayout info = new LinearLayout(getApplicationContext());
-                            info.setOrientation(LinearLayout.VERTICAL);
+                        LinearLayout info = new LinearLayout(getApplicationContext());
+                        info.setOrientation(LinearLayout.VERTICAL);
 
-                            TextView title = new TextView(getApplicationContext());
-                            title.setTextColor(Color.BLACK);
-                            title.setGravity(Gravity.CENTER);
-                            title.setTypeface(null, Typeface.BOLD);
-                            title.setText(marker.getTitle());
+                        TextView title = new TextView(getApplicationContext());
+                        title.setTextColor(Color.BLACK);
+                        title.setGravity(Gravity.CENTER);
+                        title.setTypeface(null, Typeface.BOLD);
+                        title.setText(marker.getTitle());
 
-                            TextView snippet = new TextView(getApplicationContext());
-                            snippet.setTextColor(Color.GRAY);
-                            snippet.setText(marker.getSnippet());
+                        TextView snippet = new TextView(getApplicationContext());
+                        snippet.setTextColor(Color.GRAY);
+                        snippet.setText(marker.getSnippet());
 
-                            info.addView(title);
-                            info.addView(snippet);
+                        info.addView(title);
+                        info.addView(snippet);
 
-                            return info;
-                        }
-                    });
-                    LatLng coordinates = new LatLng(40.730610, -73.935242);
-                    updateMapMarkers(googleMap);
-                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinates, 10));
-                }
+                        return info;
+                    }
+                });
+                LatLng coordinates = new LatLng(V, V_1);
+                updateMapMarkers(googleMap);
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinates, 10));
             });
 
             // In case this activity was started with special instructions from an
             // Intent, pass the Intent's extras to the fragment as arguments
-            mapFragment.setArguments(getIntent().getExtras());
+            Intent intent = getIntent();
+            mapFragment.setArguments(intent.getExtras());
 
             // Add the fragment to the 'fragment_container' FrameLayout
-            getFragmentManager().beginTransaction()
-                    .add(R.id.map_frame_container, mapFragment).commit();
+            FragmentManager fragmentManager = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            FragmentTransaction add = fragmentTransaction.add(R.id.map_frame_container,
+                    mapFragment);
+            add.commit();
         }
     }
 
@@ -160,7 +171,7 @@ public class MapRatDataActivity extends Activity {
      * @param v the view
      */
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void startHandler(View v) {
+    private void startHandler(View v) {
         DatePickerDialog newFragment = new DatePickerDialog(MapRatDataActivity.this);
         newFragment.setOnDateSetListener(new StartDatePickerDialog());
         newFragment.show();
@@ -172,7 +183,7 @@ public class MapRatDataActivity extends Activity {
      * @param v the view
      */
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void endHandler(View v) {
+    private void endHandler(View v) {
         DatePickerDialog newFragment = new DatePickerDialog(MapRatDataActivity.this);
         newFragment.setOnDateSetListener(new EndDatePickerDialog());
         newFragment.show();
@@ -183,7 +194,7 @@ public class MapRatDataActivity extends Activity {
      * @param v the view the button is located in
      */
     public void logoutHandler(View v) {
-        user = null;
+        /*user = null;*/
         Intent backToWelcome = new Intent(this, WelcomeActivity.class);
         startActivity(backToWelcome);
     }
@@ -195,65 +206,76 @@ public class MapRatDataActivity extends Activity {
     public void newRatDataHandler(View v) {
         Intent toNewRatDataScreen = new Intent(this, AddNewRatData.class);
         toNewRatDataScreen.putExtra("user", user);
-        //REMOVE LATER - ONCE DATABASE IS FIXED
-        //toNewRatDataScreen.putExtra("ratlist", ratList);
         startActivity(toNewRatDataScreen);
     }
 
     /**
      * Refresh the markers on the map to match a set
      *
-     * @param rat_idxs the set of indexes
+     * @param rat_indexes the set of indexes
      * @param map the map
      */
-    private void refreshMapMarkerMap(Set<Integer> rat_idxs, GoogleMap map) {
-        for (int i : rat_idxs) {
+    private void refreshMapMarkerMap(Collection<Integer> rat_indexes, GoogleMap map) {
+        for (int i : rat_indexes) {
             if (!markersOnMap.containsKey(i)) {
-                Optional<RatData> data = ratList.stream()
-                        .filter((d) -> d.getId() == i).findFirst();
+                Stream<RatData> stream = ratList.stream();
+                Stream<RatData> ratDataStream = stream.filter((d) -> d.getId() == i);
+                Optional<RatData> data = ratDataStream.findFirst();
                 if (data.isPresent()) {
                     RatData rat = data.get();
                     Log.d("rat-shit", "" + rat.getId());
-                    LatLng coords = new LatLng(rat.getLatitude(), rat.getLongitude());
-                    markersOnMap.put(i, map.addMarker(new MarkerOptions().position(coords)
-                            .title("Rat " + rat.getId())
+                    LatLng coordinates = new LatLng(rat.getLatitude(), rat.getLongitude());
+                    MarkerOptions markerOptions = new MarkerOptions();
+                    MarkerOptions position = markerOptions.position(coordinates);
+                    MarkerOptions title = position
+                            .title("Rat " + rat.getId());
+                    markersOnMap.put(i, map.addMarker(title
                             .snippet("Spotted: " + rat.getLocationType() + "\n" +
                                     "Date: " + df.format(rat.getDateCreated()))));
                 }
             }
         }
 
-        Set<Integer> remove_idx = new HashSet<>();
-        markersOnMap.entrySet().stream().filter((e) -> !rat_idxs.contains(e.getKey())).forEach(
+        Collection<Integer> remove_idx = new HashSet<>();
+        Set<Map.Entry<Integer, Marker>> entries = markersOnMap.entrySet();
+        Stream<Map.Entry<Integer, Marker>> stream2 = entries.stream();
+        Stream<Map.Entry<Integer, Marker>> entryStream =
+                stream2.filter((e) -> !rat_indexes.contains(e.getKey()));
+        entryStream.forEach(
                 (e) -> {
                     remove_idx.add(e.getKey());
-                    e.getValue().remove();
+                    Marker value = e.getValue();
+                    value.remove();
                 }
         );
-        markersOnMap.keySet().removeAll(remove_idx);
+        Set<Integer> integers = markersOnMap.keySet();
+        integers.removeAll(remove_idx);
     }
 
     /**
      * Update the map markers to consider the start and end dates
-     *
+     * TODO: Implement a return button to return to home screen
      * @param map the map
      */
     private void updateMapMarkers(GoogleMap map) {
-        Set<Integer> ratidxset = new HashSet<>();
-        ratList.parallelStream().filter((d) -> {
-            if (startdate == null && enddate == null) {
+        Set<Integer> ratIndexSet = new HashSet<>();
+        Stream<RatData> ratDataStream = ratList.parallelStream();
+        Stream<RatData> ratDataStream1 = ratDataStream.filter((d) -> {
+            Date dateCreated = d.getDateCreated();
+            if ((startDate == null) && (endDate == null)) {
                 return true;
-            } else if (startdate == null) {
-                return d.getDateCreated().before(enddate);
-            } else if (enddate == null) {
-                return d.getDateCreated().after(startdate);
+            } else if (startDate == null) {
+                return dateCreated.before(endDate);
+            } else if (endDate == null) {
+                return dateCreated.after(startDate);
             }
-            return d.getDateCreated().after(startdate) &&
-                    d.getDateCreated().before(enddate);
+            return dateCreated.after(startDate) &&
+                    dateCreated.before(endDate);
 
-        }).forEach((d) -> ratidxset.add(d.getId()));
-        Log.d("rat-shit2", "" + ratidxset.size());
-        refreshMapMarkerMap(ratidxset, map);
+        });
+        ratDataStream1.forEach((d) -> ratIndexSet.add(d.getId()));
+        Log.d("rat-shit2", "" + ratIndexSet.size());
+        refreshMapMarkerMap(ratIndexSet, map);
     }
 
     /**
@@ -262,12 +284,13 @@ public class MapRatDataActivity extends Activity {
     private class StartDatePickerDialog
             implements DatePickerDialog.OnDateSetListener {
 
+        @Override
         public void onDateSet(DatePicker view, int year, int month, int day) {
             Calendar cal = Calendar.getInstance();
             cal.set(year, month, day);
             Date date = cal.getTime();
             Log.d("rat-shit", date.toString());
-            startdate = date;
+            startDate = date;
             updateMapMarkers(map);
         }
     }
@@ -278,11 +301,11 @@ public class MapRatDataActivity extends Activity {
     private class EndDatePickerDialog
             implements DatePickerDialog.OnDateSetListener {
 
+        @Override
         public void onDateSet(DatePicker view, int year, int month, int day) {
             Calendar cal = Calendar.getInstance();
             cal.set(year, month, day);
-            Date date = cal.getTime();
-            enddate = date;
+            endDate = cal.getTime();
             updateMapMarkers(map);
         }
     }

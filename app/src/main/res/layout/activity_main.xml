@@ -7,7 +7,7 @@
     <TextView android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_gravity="center"
-              android:text="User should never see this"
+              android:text="@string/user_should_never_see_this"
               android:layout_marginTop="10sp"
               android:layout_marginBottom="10sp"
               android:id="@+id/main_text"/>
@@ -16,6 +16,6 @@
             android:id="@+id/logout"
             android:layout_gravity="center"
             android:layout_marginTop="30sp"
-            android:text="Logout"/>
+            android:text="@string/logout"/>
 
 </LinearLayout>

@@ -2,6 +2,7 @@ package com.github.muffindreamers.rous.controllers;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,12 +17,12 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 /**
- * Created by Brooke on 10/7/2017.
+ * Created by Brooke on 10/16/2017.
+ * @author Brooke White
  */
 
 public class FetchRatDataActivity extends Activity {
     private User user = null;
-    private ListView listView ;
     private ArrayList<RatData> ratList;
     private boolean auth;
 
@@ -32,7 +33,9 @@ public class FetchRatDataActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle extras = getIntent().getExtras();
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+        assert extras != null;
         auth = extras.getBoolean("auth");
         if (!auth) {
             startActivity(new Intent(this, WelcomeActivity.class));
@@ -46,17 +49,17 @@ public class FetchRatDataActivity extends Activity {
         this.user = user;
 
         try {
-            ratList = new RetrieveRatData().execute().get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
+            RetrieveRatData retrieveRatData = new RetrieveRatData();
+            AsyncTask<String, Void, ArrayList<RatData>> execute = retrieveRatData.execute();
+            ratList = execute.get();
+        } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
 
         setContentView(R.layout.activity_fetch_rat_data);
-        listView = (ListView) findViewById(R.id.list);
+        ListView listView = (ListView) findViewById(R.id.list);
 
-        ArrayAdapter<RatData> adapter = new ArrayAdapter<RatData>(this,
+        ArrayAdapter<RatData> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, android.R.id.text1, ratList);
 
         listView.setAdapter(adapter);
@@ -77,14 +80,11 @@ public class FetchRatDataActivity extends Activity {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 RatData rat = adapter.getItem(position);
-                //Toast.makeText(getApplicationContext(), rat.toString(),
-                //Toast.LENGTH_LONG).show();
                 Intent toDetailedScreen = new Intent
                         (FetchRatDataActivity.this,
                                 DetailedRatScreen.class);
                 toDetailedScreen.putExtra("rat", rat);
                 toDetailedScreen.putExtra("user", user);
-                //toDetailedScreen.putExtra("ratlist", ratList);
                 startActivity(toDetailedScreen);
             }
 
@@ -95,7 +95,7 @@ public class FetchRatDataActivity extends Activity {
         Button add_new = (Button) findViewById(R.id.add_new_main);
         add_new.setOnClickListener(this::newRatDataHandler);
 
-        Button map_button = (Button) findViewById(R.id.mapbutton);
+        Button map_button = (Button) findViewById(R.id.map_button);
         map_button.setOnClickListener(this::newMapHandler);
 
         Button graph_button = (Button) findViewById(R.id.graph_button);
@@ -108,11 +108,11 @@ public class FetchRatDataActivity extends Activity {
      * to go to the graph
      * @param v the graph view
      */
-    public void newGraphHandler(View v) {
+    private void newGraphHandler(View v) {
         Intent toNewGraphScreen = new Intent(this, GraphRatData.class);
         toNewGraphScreen.putExtra("user", user);
         toNewGraphScreen.putExtra("auth", auth);
-        toNewGraphScreen.putExtra("ratlist", ratList);
+        toNewGraphScreen.putExtra("ratList", ratList);
         startActivity(toNewGraphScreen);
     }
 
@@ -120,7 +120,7 @@ public class FetchRatDataActivity extends Activity {
      * to go to the map screen
      * @param v a view to go to the new map
      */
-    public void newMapHandler(View v) {
+    private void newMapHandler(View v) {
         Intent toNewMapScreen = new Intent(this, MapRatDataActivity.class);
         toNewMapScreen.putExtra("user", user);
         toNewMapScreen.putExtra("auth", auth);
@@ -131,8 +131,8 @@ public class FetchRatDataActivity extends Activity {
      * Returns the user to the Welcome Screen
      * @param v the view the button is located in
      */
-    public void logoutHandler(View v) {
-        user = null;
+    private void logoutHandler(View v) {
+        /*user = null*/
         Intent backToWelcome = new Intent(this, WelcomeActivity.class);
         startActivity(backToWelcome);
     }
@@ -141,11 +141,11 @@ public class FetchRatDataActivity extends Activity {
      * Sends the user to the add new rat screen
      * @param v the view the button is located in
      */
-    public void newRatDataHandler(View v) {
+    private void newRatDataHandler(View v) {
         Intent toNewRatDataScreen = new Intent(this, AddNewRatData.class);
         toNewRatDataScreen.putExtra("user", user);
         //REMOVE LATER - ONCE DATABASE IS FIXED
-        //toNewRatDataScreen.putExtra("ratlist", ratList);
+        //toNewRatDataScreen.putExtra("ratList", ratList);
         startActivity(toNewRatDataScreen);
     }
 }
