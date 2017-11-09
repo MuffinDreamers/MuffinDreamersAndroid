@@ -115,7 +115,9 @@ public class GraphRatData extends AppCompatActivity {
      */
     private void updateGraphView (LineChart chart, Date startDate, Date endDate) {
         Calendar startC = Calendar.getInstance();
+        startC.set(2017, 0, 9);
         Calendar endC = Calendar.getInstance();
+        endC.set(2017,11 , 9);
         if (startDate != null) {
             startC.setTime(startDate);
         }
