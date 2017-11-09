@@ -10,9 +10,6 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        jackOptions {
-            enabled true
-        }
 
         manifestPlaceholders = [auth0Domain: "@string/com_auth0_domain",
                                 auth0Scheme: "https"]
@@ -33,15 +30,19 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    compile 'com.android.support:appcompat-v7:25.3.1'
+    androidTestCompile 'com.android.support:support-annotations:25.4.0'
+    androidTestCompile('com.android.support.test.espresso:espresso-core:3.0.1') {
+        exclude module: 'support-annotations'
+    }
+    androidTestCompile 'com.android.support.test.espresso:espresso-intents:3.0.1'
+    androidTestCompile 'com.android.support.test:runner:1.0.1'
+    androidTestCompile 'com.android.support.test:rules:1.0.1'
+    compile 'com.android.support:appcompat-v7:25.4.0'
     compile 'com.auth0.android:auth0:1.10.0'
     compile 'com.auth0.android:lock:2.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.android.support:design:25.3.1'
-    compile 'com.google.android.gms:play-services-maps:11.0.4'
+    compile 'com.android.support:design:25.4.0'
+    compile 'com.google.android.gms:play-services-maps:11.4.0'
     compile 'com.jjoe64:graphview:4.2.1'
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
     testCompile 'junit:junit:4.12'
