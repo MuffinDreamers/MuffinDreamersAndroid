@@ -136,8 +136,6 @@ public class GraphRatData extends AppCompatActivity {
             xaxis.setAxisMaximum(endC.get(Calendar.MONTH) + 1);
             chart.invalidate();
         }
-
-
         chart.fitScreen();
     }
 
