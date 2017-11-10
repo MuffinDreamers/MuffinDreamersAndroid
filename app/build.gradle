@@ -10,6 +10,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled = true
 
         manifestPlaceholders = [auth0Domain: "@string/com_auth0_domain",
                                 auth0Scheme: "https"]
@@ -52,5 +53,6 @@ dependencies {
     compile 'com.google.android.gms:play-services-location:11.6.0'
     compile 'com.jjoe64:graphview:4.2.1'
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
+    compile 'com.android.support:multidex:1.0.1'
     testCompile 'junit:junit:4.12'
 }
