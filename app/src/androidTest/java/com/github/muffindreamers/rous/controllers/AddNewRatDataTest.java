@@ -20,7 +20,9 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.Matchers.allOf;
 
 /**
- * Created by leemr on 11/8/2017.
+ * Created by Lee Mracek on 11/8/2017.
+ *
+ * Tests the ability to add new rat data
  */
 
 @RunWith(AndroidJUnit4.class)
@@ -28,7 +30,7 @@ import static org.hamcrest.Matchers.allOf;
 public class AddNewRatDataTest {
     @Rule
     public IntentsTestRule<AddNewRatData> intentsRule =
-            new IntentsTestRule<AddNewRatData>(AddNewRatData.class);
+            new IntentsTestRule<>(AddNewRatData.class);
 
     @Test
     public void verifyCancelButton() {

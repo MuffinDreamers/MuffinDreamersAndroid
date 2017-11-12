@@ -26,7 +26,6 @@ import com.github.muffindreamers.rous.model.User;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
-/*import com.google.android.gms.maps.OnMapReadyCallback;*/
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -41,10 +40,11 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Stream;
+
+/*import com.google.android.gms.maps.OnMapReadyCallback;*/
 
 /**
  * Created by Brooke on 10/7/2017.
@@ -159,9 +159,9 @@ public class MapRatDataActivity extends Activity {
             // Add the fragment to the 'fragment_container' FrameLayout
             FragmentManager fragmentManager = getFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            FragmentTransaction add = fragmentTransaction.add(R.id.map_frame_container,
+            fragmentTransaction.add(R.id.map_frame_container,
                     mapFragment);
-            add.commit();
+            fragmentTransaction.commit();
         }
     }
 
@@ -220,9 +220,7 @@ public class MapRatDataActivity extends Activity {
             if (!markersOnMap.containsKey(i)) {
                 Stream<RatData> stream = ratList.stream();
                 Stream<RatData> ratDataStream = stream.filter((d) -> d.getId() == i);
-                Optional<RatData> data = ratDataStream.findFirst();
-                if (data.isPresent()) {
-                    RatData rat = data.get();
+                ratDataStream.findFirst().ifPresent((rat) -> {
                     Log.d("rat-shit", "" + rat.getId());
                     LatLng coordinates = new LatLng(rat.getLatitude(), rat.getLongitude());
                     MarkerOptions markerOptions = new MarkerOptions();
@@ -232,7 +230,7 @@ public class MapRatDataActivity extends Activity {
                     markersOnMap.put(i, map.addMarker(title
                             .snippet("Spotted: " + rat.getLocationType() + "\n" +
                                     "Date: " + df.format(rat.getDateCreated()))));
-                }
+                });
             }
         }
 

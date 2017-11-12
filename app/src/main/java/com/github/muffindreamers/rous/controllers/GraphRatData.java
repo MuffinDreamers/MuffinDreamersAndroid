@@ -6,16 +6,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
-/*import android.support.v7.widget.Toolbar;*/
 import android.util.Log;
 import android.view.View;
-/*import android.widget.ArrayAdapter;*/
 import android.widget.Button;
 import android.widget.DatePicker;
-/*import android.widget.Spinner;*/
 
 import com.github.mikephil.charting.charts.LineChart;
-/*import com.github.mikephil.charting.components.AxisBase;*/
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
@@ -28,14 +24,16 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+/*import android.support.v7.widget.Toolbar;*/
+/*import android.widget.ArrayAdapter;*/
+/*import android.widget.Spinner;*/
+/*import com.github.mikephil.charting.components.AxisBase;*/
+
 /**
  * Created by Brooke 10/27/17
  */
 public class GraphRatData extends AppCompatActivity {
 
-    private static final int X = 11;
-    private static final int INT = 11;
-    private static final int X1 = 12;
     private LineChart chart;
 
     /**
@@ -210,7 +208,7 @@ public class GraphRatData extends AppCompatActivity {
                 oct++;
             }else if (month == 10) {
                 nov++;
-            }else if (month == INT) {
+            }else if (month == 11) {
                 dec++;
             }
         }
@@ -231,8 +229,8 @@ public class GraphRatData extends AppCompatActivity {
         entries.add(new Entry(8, aug));
         entries.add(new Entry(9, sep));
         entries.add(new Entry(10, oct));
-        entries.add(new Entry(X, nov));
-        entries.add(new Entry(X1, dec));
+        entries.add(new Entry(11, nov));
+        entries.add(new Entry(12, dec));
 
         LineDataSet dataSet = new LineDataSet(entries, "Number of Rat Sightings");
 
