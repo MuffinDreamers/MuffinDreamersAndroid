@@ -46,6 +46,10 @@
             android:name=".controllers.GraphRatData"
             android:label="@string/title_activity_graph_rat_data"
             android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".controllers.AdminPanel"
+            android:label="@string/title_activity_admin_panel"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

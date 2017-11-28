@@ -5,7 +5,8 @@ package com.github.muffindreamers.rous.model;
  */
 public enum UserType {
     USER("USER"),
-    ADMIN("ADMIN");
+    ADMIN("ADMIN"),
+    BANNED("BANNED");
 
     private String str;
 
@@ -24,6 +25,8 @@ public enum UserType {
         switch (string.toUpperCase()) {
             case "ADMIN":
                 return UserType.ADMIN;
+            case "BANNED":
+                return UserType.BANNED;
             case "USER":
             default:
                 return UserType.USER;

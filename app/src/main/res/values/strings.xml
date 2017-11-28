@@ -5,6 +5,7 @@
     <string name="com_auth0_client_id">trq9MLo8GsyhnNe6iKDUIOBZrauB1cAD</string>
     <string name="title_activity_fetch_rat_data">FetchRatDataActivity</string>
     <string name="title_activity_detailed_rat_screen">DetailedRatScreen</string>
+    <string name="title_activity_admin_panel">AdminPanel</string>
     <string name="textView">TextView</string>
     <string name="title_activity_add_new_rat_data">AddNewRatData</string>
     <string name="title_activity_graph_rat_data">GraphRatData</string>
@@ -43,6 +44,13 @@
     <string name="full_name">Full name:</string>
     <string name="user_type">Permissions Level:</string>
 
-
-    <string name="buttonWidth">100dp</string>
+    <!-- Admin panel strings -->
+    <string name="admin_name_prefix">Name:\u0020</string>
+    <string name="admin_email_prefix">Email:\u0020</string>
+    <string name="admin_verified_prefix">Email Verified:\u0020</string>
+    <string name="admin_created_prefix">Creation Date:\u0020</string>
+    <string name="admin_login_count_prefix">Login Count:\u0020</string>
+    <string name="admin_last_ip_prefix">Last IP:\u0020</string>
+    <string name="admin_last_login_prefix">Last Login Date:\u0020</string>
+    <string name="admin_blocked_prefix">Blocked:\u0020</string>
 </resources>

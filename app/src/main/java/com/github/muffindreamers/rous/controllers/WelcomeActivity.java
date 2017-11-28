@@ -1,5 +1,7 @@
 package com.github.muffindreamers.rous.controllers;
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -59,7 +61,25 @@ public class WelcomeActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(AuthenticationException exception) {
-                        // later
+                        /*
+                        Blocked:
+                            code = "unauthorized"
+                            description = "user is blocked"
+                            statusCode = 0
+                         */
+                        if(exception.getStatusCode() == 0) { // User is banned
+                            Log.d("Auth", "User is banned");
+                            AlertDialog.Builder builder = new AlertDialog.Builder(WelcomeActivity.this);
+                            builder.setTitle("Unable to log in")
+                                    .setMessage("Your account has been banned");
+                            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                            builder.create().show();
+                        }
                     }
 
                     @Override
@@ -75,7 +95,7 @@ public class WelcomeActivity extends AppCompatActivity {
                                         AuthenticationException>() {
                                     @Override
                                     public void onSuccess(UserProfile payload) {
-                                       Log.d("debug", "user id: " + payload
+                                       Log.d("Auth", "user id: " + payload
                                                        .getId());
                                        String userId = payload.getId();
 
@@ -92,22 +112,23 @@ public class WelcomeActivity extends AppCompatActivity {
                                                                .get("full_name");
                                                        String perms = (String) userMetadata
                                                                .get("role");
-                                                       Log.d("user info", "User is " +
+                                                       Log.d("Auth", "User is " +
                                                                username + " with name: " + name +
                                                                "and permissions: " + perms);
                                                        Set<String> userData = userMetadata
                                                                .keySet();
-                                                       Log.d("debug", Arrays.toString
+                                                       Log.d("Auth", Arrays.toString
                                                                (userData.toArray()));
+
+                                                       User user = new User(username, name,
+                                                               credentials.getAccessToken(),
+                                                               UserType.fromString(perms));
 
                                                        Intent toMain = new Intent
                                                                        (WelcomeActivity.this,
                                                                        FetchRatDataActivity.class);
 
                                                        toMain.putExtra("auth", true);
-                                                       Serializable user = new User(username, name,
-                                                               credentials.getAccessToken(),
-                                                               UserType.fromString(perms));
                                                        toMain.putExtra("user", user);
                                                        startActivity(toMain);
                                                    }
@@ -122,7 +143,6 @@ public class WelcomeActivity extends AppCompatActivity {
                                     @Override
                                     public void onFailure
                                             (AuthenticationException error) {
-                                        // later
                                     }
                                 });
 

@@ -13,6 +13,8 @@ import com.github.muffindreamers.rous.R;
 import com.github.muffindreamers.rous.model.RatData;
 import com.github.muffindreamers.rous.model.RetrieveRatData;
 import com.github.muffindreamers.rous.model.User;
+import com.github.muffindreamers.rous.model.UserType;
+
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
@@ -57,7 +59,7 @@ public class FetchRatDataActivity extends Activity {
         }
 
         setContentView(R.layout.activity_fetch_rat_data);
-        ListView listView = (ListView) findViewById(R.id.list);
+        ListView listView = (ListView) findViewById(R.id.main_list);
 
         ArrayAdapter<RatData> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, android.R.id.text1, ratList);
@@ -101,6 +103,12 @@ public class FetchRatDataActivity extends Activity {
         Button graph_button = (Button) findViewById(R.id.graph_button);
         graph_button.setOnClickListener(this::newGraphHandler);
 
+        if(user.getPermissions() == UserType.ADMIN)
+        {
+            Button adminButton = (Button) findViewById(R.id.admin_button);
+            adminButton.setVisibility(View.VISIBLE);
+            adminButton.setOnClickListener(this::newAdminHandler);
+        }
     }
 
 
@@ -147,5 +155,16 @@ public class FetchRatDataActivity extends Activity {
         //REMOVE LATER - ONCE DATABASE IS FIXED
         //toNewRatDataScreen.putExtra("ratList", ratList);
         startActivity(toNewRatDataScreen);
+    }
+
+    /**
+     * Sends the user to the admin screen
+     * @param v the view the button is located in
+     */
+    private void newAdminHandler(View v) {
+        Intent toAdminPanel = new Intent(this, AdminPanel.class);
+        toAdminPanel.putExtra("user", user);
+        toAdminPanel.putExtra("auth", auth);
+        startActivity(toAdminPanel);
     }
 }
