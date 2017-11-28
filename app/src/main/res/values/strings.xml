@@ -28,9 +28,9 @@
     <string name="borough">Borough Location:</string>
     <string name="zipCode">ZipCode:</string>
     <string name="address">Address:</string>
-    <string name="type_address">Type address</string>
+    <string name="address_hint">Type address</string>
     <string name="city">City:</string>
-    <string name="type_city">Type city</string>
+    <string name="city_hint">Type city</string>
     <string name="latitude">Latitude:</string>
     <string name="longitude">Longitude:</string>
     <string name="button">Button</string>
