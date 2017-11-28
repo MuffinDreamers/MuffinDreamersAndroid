@@ -16,6 +16,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -63,6 +64,8 @@ public class MapRatDataActivity extends Activity {
 
     private Date startDate;
     private Date endDate;
+    private EditText startText;
+    private EditText endText;
 
     /**
      * Creates the main ListView Screen
@@ -96,11 +99,14 @@ public class MapRatDataActivity extends Activity {
 
         setContentView(R.layout.activity_map_screen);
 
-        Button start = (Button) findViewById(R.id.start_date);
-        start.setOnClickListener(this::startHandler);
+        Button return_button = (Button) findViewById(R.id.map_return);
+        return_button.setOnClickListener(this::newReturnHandler);
 
-        Button end = (Button) findViewById(R.id.end_date);
-        end.setOnClickListener(this::endHandler);
+        startText = (EditText) findViewById(R.id.start_map);
+        startText.setOnClickListener(this::startHandler);
+
+        endText = (EditText) findViewById(R.id.end_map);
+        endText.setOnClickListener(this::endHandler);
 
         if (findViewById(R.id.map_frame_container) != null) {
 
@@ -163,6 +169,14 @@ public class MapRatDataActivity extends Activity {
                     mapFragment);
             fragmentTransaction.commit();
         }
+    }
+
+    private void newReturnHandler(View v) {
+        Intent toMain = new Intent(this, FetchRatDataActivity.class);
+        Intent intent = getIntent();
+        toMain.putExtra("user", intent.getSerializableExtra("user"));
+        toMain.putExtra("auth", intent.getSerializableExtra("auth"));
+        startActivity(toMain);
     }
 
     /**
@@ -288,6 +302,7 @@ public class MapRatDataActivity extends Activity {
             cal.set(year, month, day);
             Date date = cal.getTime();
             Log.d("rat-shit", date.toString());
+            startText.setText(new SimpleDateFormat("MM-dd-yyyy").format(date));
             startDate = date;
             updateMapMarkers(map);
         }
@@ -304,6 +319,7 @@ public class MapRatDataActivity extends Activity {
             Calendar cal = Calendar.getInstance();
             cal.set(year, month, day);
             endDate = cal.getTime();
+            endText.setText(new SimpleDateFormat("MM-dd-yyyy").format(endDate));
             updateMapMarkers(map);
         }
     }
