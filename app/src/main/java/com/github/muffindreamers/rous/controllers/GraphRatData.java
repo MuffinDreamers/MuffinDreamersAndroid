@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -20,6 +21,7 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.muffindreamers.rous.R;
 import com.github.muffindreamers.rous.model.RatData;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -35,6 +37,8 @@ import java.util.Date;
 public class GraphRatData extends AppCompatActivity {
 
     private LineChart chart;
+    private EditText startText;
+    private EditText endText;
 
     /**
      * the function executes when the activity is opened
@@ -61,11 +65,11 @@ public class GraphRatData extends AppCompatActivity {
         Button return_button = (Button) findViewById(R.id.graph_return);
         return_button.setOnClickListener(this::newReturnHandler);
 
-        Button start = (Button) findViewById(R.id.start_graph);
-        start.setOnClickListener(this::startHandler);
+        startText = (EditText) findViewById(R.id.start_graph);
+        startText.setOnClickListener(this::startHandler);
 
-        Button end = (Button) findViewById(R.id.end_graph);
-        end.setOnClickListener(this::endHandler);
+        endText = (EditText) findViewById(R.id.end_graph);
+        endText.setOnClickListener(this::endHandler);
     }
 
     /**
@@ -146,6 +150,7 @@ public class GraphRatData extends AppCompatActivity {
             Calendar cal = Calendar.getInstance();
             cal.set(year, month, day);
             Date date = cal.getTime();
+            startText.setText(new SimpleDateFormat("MM-dd-yyyy").format(date));
             Log.d("rat-shit", date.toString());
             updateGraphView(chart, date, null);
         }
@@ -158,6 +163,7 @@ public class GraphRatData extends AppCompatActivity {
             Calendar cal = Calendar.getInstance();
             cal.set(year, month, day);
             Date end_date = cal.getTime();
+            endText.setText(new SimpleDateFormat("MM-dd-yyyy").format(end_date));
             updateGraphView(chart, null, end_date);
         }
     }
