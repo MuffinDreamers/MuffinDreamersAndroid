@@ -43,6 +43,7 @@
     <string name="username">Username:</string>
     <string name="full_name">Full name:</string>
     <string name="user_type">Permissions Level:</string>
+    <string name="location_button">Use Location</string>
 
     <!-- Admin panel strings -->
     <string name="admin_name_prefix">Name:\u0020</string>
