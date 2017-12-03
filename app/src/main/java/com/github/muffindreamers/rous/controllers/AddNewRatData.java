@@ -86,6 +86,11 @@ public class AddNewRatData extends AppCompatActivity {
         ((Button) findViewById(R.id.use_location)).setOnClickListener(this::useLocationHandler);
 
         locationClient = LocationServices.getFusedLocationProviderClient(this);
+
+        Bundle extras = getIntent().getExtras();
+        if(extras != null && extras.getBoolean("autofill", false)) {
+            autofillFromLocation();
+        }
     }
 
     /**

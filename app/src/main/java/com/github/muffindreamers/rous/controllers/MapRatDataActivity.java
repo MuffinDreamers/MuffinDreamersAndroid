@@ -9,6 +9,9 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -36,7 +39,9 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -45,6 +50,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
@@ -109,6 +115,8 @@ public class MapRatDataActivity extends Activity {
 
         Button return_button = (Button) findViewById(R.id.map_return);
         return_button.setOnClickListener(this::newReturnHandler);
+
+        ((Button)findViewById(R.id.submit_report_at_location)).setOnClickListener(this::submitReportHandler);
 
         startText = (EditText) findViewById(R.id.start_map);
         startText.setOnClickListener(this::startHandler);
@@ -205,6 +213,15 @@ public class MapRatDataActivity extends Activity {
                 }
                 return;
         }
+    }
+
+    private void submitReportHandler(View v) {
+        Intent toNewRatDataScreen = new Intent(this, AddNewRatData.class);
+        toNewRatDataScreen.putExtra("user", user);
+        toNewRatDataScreen.putExtra("autofill", true);
+        //REMOVE LATER - ONCE DATABASE IS FIXED
+        //toNewRatDataScreen.putExtra("ratList", ratList);
+        startActivity(toNewRatDataScreen);
     }
 
     private void newReturnHandler(View v) {
