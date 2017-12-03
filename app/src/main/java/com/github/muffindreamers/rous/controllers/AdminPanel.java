@@ -41,7 +41,11 @@ public class AdminPanel extends AppCompatActivity {
     private Auth0ManagementAPI managementAPI;
 
     /**
-     * Prepares the admin panel
+     * Prepares the admin panel.
+     * Saves references to all textviews for easy updating later.
+     * Configures the search box's auto complete features with several listeners
+     * Sets the search button's click listener
+     * Construct's the management API, starting the process of downloading the list of users
      * @param savedInstanceState the instance data passed in
      */
     @Override
@@ -96,7 +100,7 @@ public class AdminPanel extends AppCompatActivity {
     }
 
     /**
-     * Searches for the specified user
+     * Searches for the user matching the email specified in the search box
      * @param v the view the button is located in
      */
     private void searchHandler(View v) {
@@ -106,7 +110,7 @@ public class AdminPanel extends AppCompatActivity {
     }
 
     /**
-     * Block/unblock the specified user
+     * Block/unblock the user matching the email specified in the search box
      * @param v the view the button is located in
      */
     private void blockHandler(View v) {
@@ -123,6 +127,11 @@ public class AdminPanel extends AppCompatActivity {
         }
     }
 
+    /**
+     * Called when an operation that updates the user's data (blocking/unblocking) finishes
+     * Notifies the user about the result
+     * @param success Whether or not the update operation was successful
+     */
     private void updateUserListener(boolean success) {
         if(success) {
             Toast.makeText(this, "Blocked status has been updated", Toast.LENGTH_SHORT).show();
@@ -137,6 +146,10 @@ public class AdminPanel extends AppCompatActivity {
         }
     }
 
+    /**
+     * Updates all the text views and block button with the information from the specified User
+     * @param user User information to show
+     */
     private void updateText(User user) {
         name.setText(getResources().getText(R.string.admin_name_prefix) + user.getName());
         email.setText(getResources().getText(R.string.admin_email_prefix) + user.getEmail());
@@ -151,6 +164,7 @@ public class AdminPanel extends AppCompatActivity {
     }
 
     /**
+     * Called when the back button is clicked
      * Returns the user to the Main Screen
      * @param v the view the button is located in
      */

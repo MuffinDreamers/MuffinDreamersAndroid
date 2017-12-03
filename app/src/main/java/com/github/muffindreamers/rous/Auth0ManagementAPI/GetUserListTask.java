@@ -18,12 +18,20 @@ import java.util.Date;
 import javax.net.ssl.HttpsURLConnection;
 
 /**
- * Created by carty on 11/28/2017.
+ * Created by Will Carty on 11/28/2017.
+ * Requests the complete list of users from the Auth0 Management API using an access token
  */
 
 public class GetUserListTask extends AsyncTask<String, Void, User[]> {
 
+    /**
+     * Interface for a callback listener
+     */
     public interface Listener {
+        /**
+         * Called when the task completes
+         * @param users the array of users returned from the server
+         */
         public void onFinished(User[] users);
     }
 
@@ -32,6 +40,10 @@ public class GetUserListTask extends AsyncTask<String, Void, User[]> {
     HttpsURLConnection connection;
     URL userListURL;
 
+    /**
+     * Constructs the task, automatically creating the URL to access and setting the callback listener
+     * @param listener The listener function to call on completion of the task. Can be null
+     */
     public GetUserListTask(Listener listener) {
         try {
             this.listener = listener;
@@ -41,6 +53,11 @@ public class GetUserListTask extends AsyncTask<String, Void, User[]> {
         }
     }
 
+    /**
+     * Creates and configures the GET request, reads the response and deserializes the JSON into User objects
+     * @param strings One string, an unexpired access token
+     * @return the array of users returned by the server
+     */
     @Override
     protected User[] doInBackground(String... strings) {
         if(strings.length != 1)
@@ -92,6 +109,10 @@ public class GetUserListTask extends AsyncTask<String, Void, User[]> {
         return userList.toArray(new User[0]);
     }
 
+    /**
+     * Calls the callback listener, passing on the array of users
+     * @param users the array of users returned by the server
+     */
     @Override
     protected void onPostExecute(User[] users) {
         super.onPostExecute(users);

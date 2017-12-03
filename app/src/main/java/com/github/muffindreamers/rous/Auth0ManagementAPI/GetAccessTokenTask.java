@@ -15,12 +15,20 @@ import java.net.URL;
 import javax.net.ssl.HttpsURLConnection;
 
 /**
- * Created by carty on 11/28/2017.
+ * Created by Will Carty on 11/28/2017.
+ * Requests an access token from the Auth0 server using the client ID and secret key
+ * This token provides access to the management API. It expires after 24 hours
  */
-
 public class GetAccessTokenTask extends AsyncTask<Void, Void, String> {
 
+    /**
+     * Interface for a callback listener
+     */
     public interface Listener {
+        /**
+         * Called when the task completes
+         * @param accessToken the access token returned from the server
+         */
         public void onFinished(String accessToken);
     }
 
@@ -29,6 +37,10 @@ public class GetAccessTokenTask extends AsyncTask<Void, Void, String> {
     private HttpsURLConnection connection;
     private URL tokenURL;
 
+    /**
+     * Constructs the task, automatically creating the URL to access and setting the callback listener
+     * @param listener The listener function to call on completion of the task. Can be null
+     */
     public GetAccessTokenTask(Listener listener) {
         try {
             tokenURL = new URL("https://muffindreamers.auth0.com/oauth/token");
@@ -39,6 +51,11 @@ public class GetAccessTokenTask extends AsyncTask<Void, Void, String> {
         this.listener = listener;
     }
 
+    /**
+     * Creates and configures the POST request, reads the accesskey from the response
+     * @param objects No parameters for this
+     * @return The accesskey returned by the server, or null if there was an error
+     */
     @Override
     protected String doInBackground(Void... objects) {
         String accessKey;
@@ -82,6 +99,10 @@ public class GetAccessTokenTask extends AsyncTask<Void, Void, String> {
         return accessKey;
     }
 
+    /**
+     * Calls the callback listener, passing on the access token
+     * @param accessToken The access token returned by the server
+     */
     @Override
     protected void onPostExecute(String accessToken) {
         super.onPostExecute(accessToken);
