@@ -13,6 +13,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -68,14 +69,12 @@ public class UploadRatData extends AsyncTask<String, Void, RatData> {
             HttpURLConnection myConnection =
                     (HttpURLConnection) gitHubEndpoint.openConnection();
             myConnection.setRequestMethod("POST");
-            myConnection.setChunkedStreamingMode(0);
             myConnection.setDoOutput(true);
             myConnection.setRequestProperty("Content-Type", "application/json");
             myConnection.setRequestProperty("Accept", "application/json");
-            myConnection.connect();
-            OutputStream out = myConnection.getOutputStream();
+            OutputStreamWriter out = new OutputStreamWriter(myConnection.getOutputStream());
             String rat_to_string = addedRatJson.toString();
-            out.write(rat_to_string.getBytes());
+            out.write(rat_to_string);
             out.flush();
             int connect = myConnection.getResponseCode();
             if ((connect == INT) || (connect == INT1)) {
