@@ -1,16 +1,20 @@
 package com.github.muffindreamers.rous.controllers;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -24,6 +28,8 @@ import com.github.muffindreamers.rous.R;
 import com.github.muffindreamers.rous.model.RatData;
 import com.github.muffindreamers.rous.model.RetrieveRatData;
 import com.github.muffindreamers.rous.model.User;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -66,6 +72,8 @@ public class MapRatDataActivity extends Activity {
     private Date endDate;
     private EditText startText;
     private EditText endText;
+
+    private FusedLocationProviderClient locationClient;
 
     /**
      * Creates the main ListView Screen
@@ -155,6 +163,7 @@ public class MapRatDataActivity extends Activity {
                 LatLng coordinates = new LatLng(V, V_1);
                 updateMapMarkers(googleMap);
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinates, 10));
+                enableMyLocationOnMap();
             });
 
             // In case this activity was started with special instructions from an
@@ -168,6 +177,33 @@ public class MapRatDataActivity extends Activity {
             fragmentTransaction.add(R.id.map_frame_container,
                     mapFragment);
             fragmentTransaction.commit();
+        }
+
+        locationClient = LocationServices.getFusedLocationProviderClient(this);
+    }
+
+    /**
+     * Automatically fills in textviews using the devices current location
+     */
+    private void enableMyLocationOnMap() {
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION},
+                    1);
+            return;
+        }
+
+        map.setMyLocationEnabled(true);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case 1: //Access to fine location
+                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    enableMyLocationOnMap();
+                }
+                return;
         }
     }
 
