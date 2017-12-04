@@ -17,6 +17,7 @@ import static junit.framework.Assert.assertEquals;
 
 /**
  * Created by Brooke on 11/3/2017.
+ * Tests the GraphRatData updateGraphView method
  */
 
 public class TestGraphData {
