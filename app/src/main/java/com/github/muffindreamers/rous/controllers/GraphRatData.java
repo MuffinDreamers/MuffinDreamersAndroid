@@ -13,6 +13,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
@@ -49,18 +50,11 @@ public class GraphRatData extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_graph_rat_data);
 
-        /*List<String> graphTypeArray = Arrays.asList("Month", "Year");
 
-        graphType = (Spinner) findViewById(R.id.graphTypeSpinner);
-        ArrayAdapter<String> graphTypeAdapter =
-        new ArrayAdapter(this,android.R.layout.simple_spinner_item, graphTypeArray);
-        graphTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        graphType.setAdapter(graphTypeAdapter);
-
-        selected = graphType.getSelectedItem().toString();
-        Log.e("Selected", selected);*/
         sortByMonth();
 
+        Button borough_button = (Button) findViewById(R.id.other_graph);
+        borough_button.setOnClickListener(this::otherGraphHandler);
 
         Button return_button = (Button) findViewById(R.id.graph_return);
         return_button.setOnClickListener(this::newReturnHandler);
@@ -81,6 +75,18 @@ public class GraphRatData extends AppCompatActivity {
         Intent intent = getIntent();
         toMain.putExtra("user", intent.getSerializableExtra("user"));
         toMain.putExtra("auth", intent.getSerializableExtra("auth"));
+        startActivity(toMain);
+    }
+    /**
+     * goes to the other graph
+     * @param v the view passed in
+     */
+    private void otherGraphHandler(View v) {
+        Intent toMain = new Intent(this, GraphRatData2.class);
+        Intent intent = getIntent();
+        toMain.putExtra("user", intent.getSerializableExtra("user"));
+        toMain.putExtra("auth", intent.getSerializableExtra("auth"));
+        toMain.putExtra("ratList", intent.getSerializableExtra("ratList"));
         startActivity(toMain);
     }
     /**
@@ -115,7 +121,9 @@ public class GraphRatData extends AppCompatActivity {
      */
     private void updateGraphView (LineChart chart, Date startDate, Date endDate) {
         Calendar startC = Calendar.getInstance();
+        startC.set(2017, 0, 9);
         Calendar endC = Calendar.getInstance();
+        endC.set(2017,11 , 9);
         if (startDate != null) {
             startC.setTime(startDate);
         }
@@ -134,8 +142,6 @@ public class GraphRatData extends AppCompatActivity {
             xaxis.setAxisMaximum(endC.get(Calendar.MONTH) + 1);
             chart.invalidate();
         }
-
-
         chart.fitScreen();
     }
 
@@ -222,7 +228,7 @@ public class GraphRatData extends AppCompatActivity {
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
         //graph = (GraphView) findViewById(R.id.graph);
-        chart = (LineChart) findViewById(R.id.chart);
+        chart = (LineChart) findViewById(R.id.chart1);
         ArrayList<Entry> entries = new ArrayList<>();
 
         entries.add(new Entry(1, jan));
@@ -248,6 +254,9 @@ public class GraphRatData extends AppCompatActivity {
 
         // we don't draw numbers, so no decimal digits needed
         IAxisValueFormatter formatter = (value, axis) -> labels[(int) value];
+        Description description = new Description();
+        description.setText("");
+        chart.setDescription(description);
 
         XAxis xAxis = chart.getXAxis();
         xAxis.setGranularity(1f); // minimum axis-step (interval) is 1
