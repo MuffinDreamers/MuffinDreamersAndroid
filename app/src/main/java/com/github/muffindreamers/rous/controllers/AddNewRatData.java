@@ -194,13 +194,12 @@ public class AddNewRatData extends AppCompatActivity {
         }
 
         try {
-            UploadRatData uploadRatData = new UploadRatData(addedRat);
-            AsyncTask<String, Void, RatData> execute = uploadRatData.execute();
-            addedRat = execute.get();
+            UploadRatData uploadRatData = new UploadRatData(addedRat, this);
+            AsyncTask<String, Void, Boolean> execute = uploadRatData.execute();
+            execute.get();
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
-        backToMain.putExtra("rat", addedRat);
         startActivity(backToMain);
     }
 

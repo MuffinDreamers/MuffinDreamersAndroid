@@ -1,7 +1,9 @@
 package com.github.muffindreamers.rous.model;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.github.muffindreamers.rous.model.RatData;
 
@@ -14,6 +16,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -24,18 +27,20 @@ import java.util.Locale;
  * @author Brooke White
  */
 
-public class UploadRatData extends AsyncTask<String, Void, RatData> {
+public class UploadRatData extends AsyncTask<String, Void, Boolean> {
     private static final int INT = 201;
     private static final int INT1 = 200;
     private  RatData addRat;
+    private final WeakReference<Context> context;
 
     /**
      * Override AsyncTask constructor
      * @param addRat the rat to be uploaded to the database
      */
-    public UploadRatData(RatData addRat) {
+    public UploadRatData(RatData addRat, Context context) {
         super();
         this.addRat = addRat;
+        this.context = new WeakReference<Context>(context);
     }
 
 
@@ -45,7 +50,8 @@ public class UploadRatData extends AsyncTask<String, Void, RatData> {
      * @return the new rat created
      */
     @Override
-    protected RatData doInBackground(String... params) {
+    protected Boolean doInBackground(String... params) {
+        boolean success = false;
         URL gitHubEndpoint;
         try {
             JSONObject addedRatJson = new JSONObject();
@@ -77,7 +83,8 @@ public class UploadRatData extends AsyncTask<String, Void, RatData> {
             out.write(rat_to_string);
             out.flush();
             int connect = myConnection.getResponseCode();
-            if ((connect == INT) || (connect == INT1)) {
+            success = (connect == INT) || (connect == INT1);
+            if (success) {
                 // Success
                 // Further processing here
                 BufferedReader in = new BufferedReader(new InputStreamReader(
@@ -107,12 +114,18 @@ public class UploadRatData extends AsyncTask<String, Void, RatData> {
         } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
-        return addRat;
+        return success;
     }
 
     @Override
-    protected void onPostExecute(RatData ratData) {
-        super.onPostExecute(ratData);
+    protected void onPostExecute(Boolean success) {
+        super.onPostExecute(success);
+        if(context.get() != null) {
+            if(success)
+                Toast.makeText(context.get(), "Report submitted", Toast.LENGTH_LONG).show();
+            else
+                Toast.makeText(context.get(), "Error submitting report", Toast.LENGTH_LONG).show();
+        }
     }
 
 
